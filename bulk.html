@@ -49,5 +49,24 @@
     <p>College of Information and Computing Sciences</p>
     <p>©Jeylo Baoit</p>
     <p>Contact: <a href="mailto:baoitjerialle@gmail.com">Email</a> | <a href="privacy.html">Privacy Policy</a></p>
-  </footer>  <div id="toast" class="toast">Ready to generate!</div>  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>  <script src="bulk.js"></script></body>
+  </footer>  <div id="toast" class="toast">Ready to generate!</div>  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>  <script src="bulk.js"></script>
+
+  <div id="cookieConsent" style="display: none; position: fixed; bottom: 20px; left: 20px; right: 20px; background: #fff3e0; color: #333; padding: 15px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); max-width: 800px; margin: 0 auto; z-index: 999;">
+    <p style="margin: 0;">This site uses cookies to serve personalized ads from Google. <a href="https://policies.google.com/technologies/cookies" target="_blank" style="color:#e67e22;">Learn more</a>.</p>
+    <button onclick="acceptCookies()" style="margin-top: 10px; background: #e67e22; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Accept</button>
+  </div>
+  
+  <script>
+    function acceptCookies() {
+      localStorage.setItem("cookieConsent", "true");
+      document.getElementById("cookieConsent").style.display = "none";
+    }
+  
+    window.addEventListener("DOMContentLoaded", () => {
+      if (!localStorage.getItem("cookieConsent")) {
+        document.getElementById("cookieConsent").style.display = "block";
+      }
+    });
+  </script>  
+</body>
 </html>
