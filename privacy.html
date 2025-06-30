@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -39,9 +40,8 @@
       border-radius: 16px;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
       line-height: 1.5;
-
-      max-width: 800px;        /* Match your container */
-      margin: 2rem auto;       /* Center horizontally */
+      max-width: 800px;
+      margin: 2rem auto;
       width: 100%;
       box-sizing: border-box;
     }
@@ -62,62 +62,77 @@
   <nav class="navbar">
     <a href="index.html">Single QR</a>
     <a href="bulk.html">Bulk QR</a>
-  </nav>  <div class="policy-container">
+  </nav>
+
+  <div class="policy-container">
     <h1>Privacy Policy</h1>
     <p><strong>Effective Date:</strong> June 28, 2025</p>
-    <p>This Privacy Policy explains how your information is handled when you use the <strong>CICS CSU Piat QR Code Generator</strong> ("Service").</p><h2>1. Information We Collect</h2>
-<p>We do <strong>not</strong> collect, store, or share any personal data. All QR code generation happens <strong>locally on your device</strong> through your browser.</p>
 
-<h2>2. Cookies & Third-Party Ads</h2>
-<p>We may display ads using services like <strong>Google AdSense</strong>, which may use cookies to serve ads based on your visit.</p>
-<ul>
-  <li>You can opt out of personalized ads by visiting <a href="https://www.google.com/settings/ads" target="_blank">Ads Settings</a>.</li>
-</ul>
+    <h2>Who We Are</h2>
+    <p>This site is operated by Jeylo Baoit, developer of the <strong>CICS CSU Piat QR Code Generator</strong>. This is a personal project for educational and practical use.</p>
 
-<h2>3. Data Security</h2>
-<p>Since we do not store any user input, no personal data is stored on our servers.</p>
+    <h2>1. Information We Collect</h2>
+    <p>We do <strong>not</strong> collect, store, or share any personal data. All QR code generation occurs <strong>locally on your device</strong> via your browser.</p>
 
-<h2>4. External Links</h2>
-<p>This site may contain links to external websites. We are not responsible for the privacy practices of those sites.</p>
+    <h2>2. Local Storage</h2>
+    <p>This website may store QR history in your browser using <strong>localStorage</strong>. This data never leaves your device.</p>
 
-<h2>5. Changes to this Policy</h2>
-<p>We may update this policy occasionally. Changes will be posted here.</p>
+    <h2>3. Cookies & Advertising</h2>
+    <p>This site may use third-party ad services like <strong>Google AdSense</strong>. These services may use cookies to personalize ads and track performance.</p>
+    <ul>
+      <li>We do not directly collect personal data or analytics.</li>
+      <li>Google uses cookies to serve ads based on your prior visits.</li>
+      <li>You can manage ad preferences at <a href="https://www.google.com/settings/ads" target="_blank">Google Ad Settings</a>.</li>
+      <li>Learn more at <a href="https://policies.google.com/technologies/ads" target="_blank">Google's Advertising Policy</a>.</li>
+    </ul>
 
-<h2>6. Contact</h2>
-<p>If you have questions, contact us at: <a href="mailto:baoitjeriall@gmail.com">baoitjeriall@gmail.com</a></p>
+    <h2>4. Data Security</h2>
+    <p>No personal information is stored on any server. All data remains within the browser session unless stored via browser history features.</p>
 
-<hr />
+    <h2>5. External Links</h2>
+    <p>We may link to external websites. We are not responsible for their privacy policies or content.</p>
 
-<h1>Terms of Use</h1>
-<p><strong>Effective Date:</strong> June 28, 2025</p>
+    <h2>6. Changes to This Policy</h2>
+    <p>This policy may be updated in the future. Revisions will be posted on this page.</p>
 
-<h2>1. Use of Service</h2>
-<p>This website allows QR code generation for personal or educational use. You are responsible for the content you enter.</p>
+    <h2>7. Contact</h2>
+    <p>If you have any questions, contact us at <a href="mailto:baoitjerialle@gmail.com">baoitjerialle@gmail.com</a>.</p>
 
-<h2>2. No Warranties</h2>
-<p>This Service is provided "as is" without warranties. We do not guarantee error-free performance.</p>
+    <hr />
 
-<h2>3. Limitation of Liability</h2>
-<p>We are not liable for any damages resulting from use of this Service.</p>
+    <h1>Terms of Use</h1>
+    <p><strong>Effective Date:</strong> June 28, 2025</p>
 
-<h2>4. Terms Updates</h2>
-<p>We may revise these terms at any time. Continued use implies agreement to the changes.</p>
+    <h2>1. Use of Service</h2>
+    <p>This website allows QR code generation for personal, educational, or non-commercial use. Users are responsible for the content entered.</p>
 
-  </div>  <div id="toast" class="toast">Updated policy available.</div>
+    <h2>2. User Responsibility</h2>
+    <p>You agree that the content you input for QR generation is lawful and appropriate. We are not liable for misuse or unintended use of generated QR codes.</p>
 
+    <h2>3. No Warranties</h2>
+    <p>This service is provided "as is". We do not guarantee accuracy, reliability, or error-free functionality.</p>
 
-</div>  <footer class="footer">
-  <p>College of Information and Computing Sciences</p>
-  <p>© Jeylo Baoit</p>
-  <p>Contact: <a href="mailto:baoitjerialle@gmail.com">Email</a> | <a href="privacy.html">Privacy Policy</a></p>
-</footer>
-<script>
-  if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('service-worker.js')
-    .then(() => console.log('✅ Service Worker Registered'))
-    .catch(err => console.error('Service Worker failed:', err));
-}
+    <h2>4. Limitation of Liability</h2>
+    <p>We are not responsible for any damages resulting from your use of this website.</p>
 
-</script>
+    <h2>5. Updates to Terms</h2>
+    <p>We may change these terms at any time. Continued use of the site means you agree to the updated terms.</p>
+  </div>
+
+  <div id="toast" class="toast">Updated policy available.</div>
+
+  <footer class="footer">
+    <p>College of Information and Computing Sciences</p>
+    <p>© Jeylo Baoit</p>
+    <p>Contact: <a href="mailto:baoitjerialle@gmail.com">Email</a> | <a href="privacy.html">Privacy Policy</a></p>
+  </footer>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(() => console.log('✅ Service Worker Registered'))
+        .catch(err => console.error('Service Worker failed:', err));
+    }
+  </script>
 </body>
 </html>
