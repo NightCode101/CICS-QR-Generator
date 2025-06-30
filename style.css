@@ -309,3 +309,8 @@ button:hover {
 .footer a:hover {
   text-decoration: underline;
 }
+
+#ad-wrapper {
+  text-align: center;
+  margin: 20px 0;
+}
