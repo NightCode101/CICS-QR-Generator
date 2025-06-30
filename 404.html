@@ -33,11 +33,23 @@
       font-size: 72px;
       margin: 0;
       color: #e65100;
+      animation: blink 1.2s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
     }
 
     p {
       font-size: 18px;
       margin: 20px 0;
+    }
+
+    .qr-image {
+      width: 150px;
+      margin: 20px auto;
+      display: block;
     }
 
     a {
@@ -67,6 +79,7 @@
   <div class="error-container">
     <h1>404</h1>
     <p>Oops! The page you're looking for doesn’t exist.</p>
+    <img src="assets/qr-illustration.gif" alt="QR Illustration" class="qr-image" />
     <a href="index.html">Go Back Home</a>
     <div class="footer">
       © 2025 CICS QR Generator · Jeylo Baoit
