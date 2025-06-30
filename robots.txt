@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://nightcode101.github.io/CICS-QR-Generator/sitemap.xml
