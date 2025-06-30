@@ -1,0 +1,43 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>QR Code Generator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav class="navbar rounded">
+    <a href="index.html" class="active">Single QR</a>
+    <a href="bulk.html">Bulk QR</a>
+  </nav>  <div class="container">
+    <div class="canvas-wrapper">
+      <h1>CICS CSU Piat</h1>
+      <h3>QR Code Generator</h3>
+      <div class="qr-display">
+        <img id="previewImage" src="./assets/preview.png" alt="Template Preview" />
+        <canvas id="qrCanvas" width="2160" height="2160" style="display: none;"></canvas>
+      </div>
+    </div><div class="form-wrapper">
+  <input type="text" id="nameInput" placeholder="Enter your name" />
+  <div class="button-group">
+    <button onclick="generateQR()">Generate QR</button>
+    <button onclick="downloadQR()" id="downloadBtn" disabled>Download QR</button>
+    <button onclick="resetQR()" id="resetBtn" disabled>Reset</button>
+  </div>
+</div>
+
+  </div>  <div class="history-container">
+    <div id="qrHistory" class="qr-history">
+      <div class="qr-history-header">
+        <h4>QR History</h4>
+        <button id="clearHistoryBtn" onclick="clearHistory()">🧹 Clear</button>
+      </div>
+      <div class="history-list" id="historyList"></div>
+    </div>
+  </div>  <footer class="footer">
+    <p>College of Information and Computing Sciences</p>
+    <p>© Jeylo Baoit</p>
+    <p>Contact: <a href="mailto:baoitjerialle@gmail.com">Email</a> | <a href="privacy.html">Privacy Policy</a></p>
+  </footer>  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>  <script src="script.js"></script>  <div id="toast" class="toast">Ready to generate another QR!</div>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bulk QR Generator</title>
+  <link rel="stylesheet" href="bulk.css" />
+</head>
+<body>
+  <nav class="navbar rounded">
+    <a href="index.html">Single QR</a>
+    <a href="bulk.html" class="active">Bulk QR</a>
+  </nav>  <div class="container">
+    <div class="canvas-wrapper">
+      <h1>CICS CSU Piat</h1>
+      <h3>Bulk QR Code Generator</h3><div class="qr-display">
+    <img id="previewImage" src="./assets/preview.png" alt="Template Preview" />
+    <canvas id="qrCanvas" width="1024" height="1024" style="display: none;"></canvas>
+
+    <div id="previewOverlay" class="preview-overlay">
+      <div class="spinner"></div>
+      <span>Generating...</span>
+    </div>
+  </div>
+</div>
+
+<div class="form-wrapper">
+  <textarea id="bulkInput" placeholder="Paste names or data here, one per line..."></textarea>
+  <div class="button-group">
+    <button onclick="generateBulkQRs()">Generate All</button>
+    <button onclick="downloadSelectedZipped()" id="zipBtn">Download Selected as ZIP</button>
+    <button onclick="resetBulkQR()" id="resetBulkBtn">Reset</button>
+  </div>
+</div>
+
+  </div>  <div class="history-container">
+    <div class="bulk-controls">
+      <label class="select-wrapper">
+        <input type="checkbox" id="selectAll" onchange="toggleSelectAll(this)">
+        <span>Select All</span>
+      </label>
+      <button id="clearSelectionBtn" onclick="clearSelection()">🧹 Clear All</button>
+    </div><div id="loadingIndicator" class="loading-indicator" style="display:none">Generating...</div>
+<div id="bulkPreview" class="bulk-preview"></div>
+
+  </div>  <footer class="footer">
+    <p>College of Information and Computing Sciences</p>
+    <p>©Jeylo Baoit</p>
+    <p>Contact: <a href="mailto:baoitjerialle@gmail.com">Email</a> | <a href="privacy.html">Privacy Policy</a></p>
+  </footer>  <div id="toast" class="toast">Ready to generate!</div>  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>  <script src="bulk.js"></script></body>
+</html>
