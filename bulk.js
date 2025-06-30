@@ -80,7 +80,6 @@ function createPreviewItem(name, dataURL) {
   return item;
 }
 
-
 function generateBulkQRs() {
   const input = document.getElementById('bulkInput').value.trim();
   if (!input) return showToast("Please paste some data.");
@@ -122,37 +121,43 @@ function generateBulkQRs() {
 
       qrImg.onload = () => {
         document.fonts.load('20px ImpactCustom').then(() => {
-          if (templateImage.complete) {
-            drawCanvas();
-          } else {
-            templateImage.onload = drawCanvas;
-          }
-
-          function drawCanvas() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.drawImage(templateImage, 0, 0, canvas.width, canvas.height);
-
-            const qrSize = 1300;
-            const qrX = (canvas.width - qrSize) / 2;
-            const qrY = 360;
-            ctx.drawImage(qrImg, qrX, qrY, qrSize, qrSize);
-
-            ctx.font = `bold ${getFontSize(text)}px ImpactCustom, sans-serif`;
-            ctx.fillStyle = '#000';
-            ctx.textAlign = 'center';
-            ctx.fillText(text.toUpperCase(), canvas.width / 2, 1820);
-
-            const dataURL = canvas.toDataURL();
-            allData.push({ name: text, image: dataURL });
-
-            const item = createPreviewItem(text, dataURL);
-            preview.appendChild(item);
-
-            i++;
-            setTimeout(generateNext, 500);
-          }
+          drawCanvasWithFallback();
         });
       };
+
+      function drawCanvasWithFallback() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const drawQR = () => {
+          const qrSize = 1300;
+          const qrX = (canvas.width - qrSize) / 2;
+          const qrY = 360;
+          ctx.drawImage(qrImg, qrX, qrY, qrSize, qrSize);
+
+          ctx.font = `bold ${getFontSize(text)}px ImpactCustom, sans-serif`;
+          ctx.fillStyle = '#000';
+          ctx.textAlign = 'center';
+          ctx.fillText(text.toUpperCase(), canvas.width / 2, 1820);
+
+          const dataURL = canvas.toDataURL();
+          allData.push({ name: text, image: dataURL });
+
+          const item = createPreviewItem(text, dataURL);
+          preview.appendChild(item);
+
+          i++;
+          setTimeout(generateNext, 500);
+        };
+
+        if (templateImage.complete && templateImage.naturalWidth > 0) {
+          ctx.drawImage(templateImage, 0, 0, canvas.width, canvas.height);
+          drawQR();
+        } else {
+          ctx.fillStyle = "#ffffff";
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          drawQR();
+        }
+      }
     });
   }
 
@@ -180,11 +185,3 @@ window.addEventListener('load', () => {
     document.getElementById('zipBtn').disabled = false;
   }
 });
-
-Promise.race([
-  document.fonts.load('20px ImpactCustom'),
-  new Promise(res => setTimeout(res, 2000)) // 2-second fallback
-]).then(() => {
-  drawCanvas(...);
-});
-
