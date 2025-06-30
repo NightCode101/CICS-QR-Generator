@@ -163,3 +163,10 @@ function clearHistory() {
 }
 
 window.addEventListener('DOMContentLoaded', loadHistory);
+
+Promise.race([
+  document.fonts.load('20px ImpactCustom'),
+  new Promise(res => setTimeout(res, 2000)) // 2-second fallback
+]).then(() => {
+  drawCanvas(...);
+});
