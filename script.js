@@ -26,19 +26,27 @@ function generateQR() {
 
     qrImg.onload = () => {
       document.fonts.load('20px ImpactCustom').then(() => {
-        if (templateImage.complete) {
-          drawCanvas(name, qrImg);
+        if (templateImage.complete || templateImage.naturalWidth !== 0) {
+          safeDrawCanvas(name, qrImg);
         } else {
-          templateImage.onload = () => drawCanvas(name, qrImg);
+          templateImage.onload = () => safeDrawCanvas(name, qrImg);
+          templateImage.onerror = () => safeDrawCanvas(name, qrImg); // fallback if image fails to load
         }
       });
     };
   });
 }
 
-function drawCanvas(name, qrImg) {
+function safeDrawCanvas(name, qrImg) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.drawImage(templateImage, 0, 0, canvas.width, canvas.height);
+
+  // Draw background if available, fallback to white
+  if (templateImage.complete && templateImage.naturalWidth !== 0) {
+    ctx.drawImage(templateImage, 0, 0, canvas.width, canvas.height);
+  } else {
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
 
   const qrSize = 1300;
   const qrX = (canvas.width - qrSize) / 2;
