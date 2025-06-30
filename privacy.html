@@ -4,6 +4,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Privacy Policy & Terms</title>
   <link rel="stylesheet" href="bulk.css" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#ffa500" />
   <style>
     .policy-container {
       background: #fff;
@@ -55,7 +57,6 @@
       text-decoration: underline;
     }
   </style>
-
 </head>
 <body>
   <nav class="navbar">
@@ -110,5 +111,13 @@
   <p>© Jeylo Baoit</p>
   <p>Contact: <a href="mailto:baoitjerialle@gmail.com">Email</a> | <a href="privacy.html">Privacy Policy</a></p>
 </footer>
+<script>
+  if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js')
+    .then(() => console.log('✅ Service Worker Registered'))
+    .catch(err => console.error('Service Worker failed:', err));
+}
+
+</script>
 </body>
 </html>
