@@ -70,14 +70,18 @@
     </script>
   </div>
 
-<div class="form-wrapper">
-  <textarea id="bulkInput" placeholder="Paste names or data here, one per line..."></textarea>
-  <div class="button-group">
-    <button onclick="generateBulkQRs()">Generate All</button>
-    <button onclick="downloadSelectedZipped()" id="zipBtn">Download Selected as ZIP</button>
-    <button onclick="resetBulkQR()" id="resetBulkBtn">Reset</button>
+  <div class="form-wrapper">
+    <label for="bulkInput" style="color:#666; font-size: 0.85rem; font-weight: bold; margin-top: -10px; margin-bottom: 6px; display: block;">
+      Format: Lastname, First Name Middle Initial
+    </label>
+    <textarea id="bulkInput" placeholder="Paste names or data here, one per line..."></textarea>
+    <div class="button-group">
+      <button onclick="generateBulkQRs()">Generate All</button>
+      <button onclick="downloadSelectedZipped()" id="zipBtn" disabled>Download Selected as ZIP</button>
+      <button onclick="resetBulkQR()" id="resetBulkBtn" disabled>Reset</button>
+    </div>
   </div>
-</div>
+
 
   </div>  
   <div class="history-container">

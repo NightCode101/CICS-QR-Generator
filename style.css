@@ -23,7 +23,7 @@ body {
   border-radius: 15px;
   margin-top: 20px;
   margin-bottom: 10px;
-  /* keep your existing styles below */
+  max-width: 800px;
   width: 100%;
   background: #fb8c00;
   padding: 10px 20px;
