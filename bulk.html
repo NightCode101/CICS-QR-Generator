@@ -2,24 +2,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CICS QR Generator - Bulk QR</title>
-  <link rel="icon" href="favicon.png" sizes="48x48" type="image/png">
-  <link rel="apple-touch-icon" href="favicon.png">
-  <link rel="canonical" href="https://cics-qrgenerator.site/" />
-  <link rel="stylesheet" href="bulk.css" />
-  <link rel="preload" href="./assets/impact.ttf" as="font" type="font/ttf" crossorigin="anonymous">
-  <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#ffa500" />
   <meta name="description" content="Generate student-ready QR codes using your name or bulk lists. CICS CSU Piat QR Generator is free and offline-ready.">
   <meta name="keywords" content="QR Code Generator, CICS, CSU Piat, Bulk QR, Student ID, QR Download">
   <meta name="author" content="Jeylo Baoit">
-
   <meta property="og:title" content="CICS QR Code Generator" />
   <meta property="og:description" content="Generate and download QR codes for students and events — no data stored!" />
   <meta property="og:image" content="https://cics-qrgenerator.site/assets/preview.png" />
   <meta property="og:url" content="https://cics-qrgenerator.site/" />
   <meta name="twitter:card" content="summary_large_image" />
 
+  <title>CICS QR Generator - Bulk QR</title>
+
+  <link rel="icon" href="favicon.png" sizes="48x48" type="image/png">
+  <link rel="apple-touch-icon" href="favicon.png">
+  <link rel="canonical" href="https://cics-qrgenerator.site/" />
+  <link rel="stylesheet" href="bulk.css" />
+  <link rel="preload" href="./assets/impact.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="manifest" href="manifest.json" />
+  
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-471DJPG993"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -44,46 +45,47 @@
     <a href="index.html">Single QR</a>
     <a href="bulk.html" class="active">Bulk QR</a>
   </nav>
+
   <div class="container">
     <div class="canvas-wrapper">
       <h1>CICS CSU Piat</h1>
-      <h3>Bulk QR Code Generator</h3><div class="qr-display">
-    <img id="previewImage" src="./assets/preview.png" alt="Template Preview" />
-    <canvas id="qrCanvas" width="1024" height="1024" style="display: none;"></canvas>
+      <h3>Bulk QR Code Generator</h3>
+      <div class="qr-display">
+        <img id="previewImage" src="./assets/preview.png" alt="Template Preview" />
+        <canvas id="qrCanvas" width="1024" height="1024" style="display: none;"></canvas>
 
-    <div id="previewOverlay" class="preview-overlay">
-      <div class="spinner"></div>
-      <span>Generating...</span>
+        <div id="previewOverlay" class="preview-overlay">
+          <div class="spinner"></div>
+          <span>Generating...</span>
+        </div>
+      </div>
     </div>
-  </div>
-  </div>
 
-  <div id="ad-wrapper">
-    <ins class="adsbygoogle"
-    style="display:block"
-    data-ad-client="ca-pub-6600375635602117"
-    data-ad-slot="3872600662"
-    data-ad-format="auto"
-    data-full-width-responsive="true"></ins>
-    <script>
-      (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-  </div>
-
-  <div class="form-wrapper">
-    <label for="bulkInput" style="color:#666; font-size: 0.85rem; font-weight: bold; margin-top: -10px; margin-bottom: 6px; display: block;">
-      Format: Lastname, First Name Middle Initial
-    </label>
-    <textarea id="bulkInput" placeholder="Paste names or data here, one per line..."></textarea>
-    <div class="button-group">
-      <button onclick="generateBulkQRs()">Generate All</button>
-      <button onclick="downloadSelectedZipped()" id="zipBtn" disabled>Download Selected as ZIP</button>
-      <button onclick="resetBulkQR()" id="resetBulkBtn" disabled>Reset</button>
+    <div id="ad-wrapper">
+      <ins class="adsbygoogle"
+      style="display:block"
+      data-ad-client="ca-pub-6600375635602117"
+      data-ad-slot="3872600662"
+      data-ad-format="auto"
+      data-full-width-responsive="true"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
     </div>
-  </div>
 
-
+    <div class="form-wrapper">
+      <label for="bulkInput" style="color:#666; font-size: 0.85rem; font-weight: bold; margin-top: -10px; margin-bottom: 6px; display: block;">
+        Format: Lastname, First Name Middle Initial
+      </label>
+      <textarea id="bulkInput" placeholder="Paste names or data here, one per line..."></textarea>
+      <div class="button-group">
+        <button onclick="generateBulkQRs()">Generate All</button>
+        <button onclick="downloadSelectedZipped()" id="zipBtn" disabled>Download Selected as ZIP</button>
+        <button onclick="resetBulkQR()" id="resetBulkBtn" disabled>Reset</button>
+      </div>
+    </div>
   </div>  
+
   <div class="history-container">
     <div class="bulk-controls">
       <label class="select-wrapper">
@@ -92,20 +94,21 @@
       </label>
       <button id="clearSelectionBtn" onclick="clearSelection()">🧹 Clear All</button>
     </div><div id="loadingIndicator" class="loading-indicator" style="display:none">Generating...</div>
-  <div id="bulkPreview" class="bulk-preview"></div>
-  <div id="ad-wrapper">
-    <ins class="adsbygoogle"
-    style="display:block"
-    data-ad-client="ca-pub-6600375635602117"
-    data-ad-slot="3872600662"
-    data-ad-format="auto"
-    data-full-width-responsive="true"></ins>
-    <script>
-      window.addEventListener('load', function () {
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      });
-    </script>
-  </div>
+
+    <div id="bulkPreview" class="bulk-preview"></div>
+    <div id="ad-wrapper">
+      <ins class="adsbygoogle"
+      style="display:block"
+      data-ad-client="ca-pub-6600375635602117"
+      data-ad-slot="3872600662"
+      data-ad-format="auto"
+      data-full-width-responsive="true"></ins>
+      <script>
+        window.addEventListener('load', function () {
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        });
+      </script>
+    </div>
   </div>  
   
   <div id="ad-wrapper">
@@ -114,17 +117,20 @@
   </div>
 
   <footer class="footer">
-  <p>College of Information and Computing Sciences</p>
-  <p>© 2025 CICS QR Generator · Jeylo Baoit</p>
-  <p>Sponsored by: 
-    <a href="https://www.profitableratecpm.com/d4cck9teba?key=d1eeac7f01de1042b04d81eb080d0b03" target="_blank" rel="noopener noreferrer">
-      Partner Link
-    </a>
-  </p>
-  <p>Contact: <a href="mailto:baoitjerialle@gmail.com">Email</a> | <a href="privacy.html">Privacy Policy</a></p>
-</footer>
+    <p>College of Information and Computing Sciences</p>
+    <p>© 2025 CICS QR Generator · Jeylo Baoit</p>
+    <p>Sponsored by: 
+      <a href="https://www.profitableratecpm.com/d4cck9teba?key=d1eeac7f01de1042b04d81eb080d0b03" target="_blank" rel="noopener noreferrer">
+        Partner Link
+      </a>
+    </p>
+    <p>Contact: <a href="mailto:baoitjerialle@gmail.com">Email</a> | <a href="privacy.html">Privacy Policy & Terms</a></p>
+  </footer>
   
-  <div id="toast" class="toast">Ready to generate!</div>  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>  <script src="bulk.js"></script>
+  <div id="toast" class="toast">Ready to generate!</div>  
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>  
+  <script src="bulk.js"></script>
 
   <div id="cookieConsent" style="display: none; position: fixed; bottom: 20px; left: 20px; right: 20px; background: #fff3e0; color: #333; padding: 15px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); max-width: 800px; margin: 0 auto; z-index: 999;">
     <p style="margin: 0;">This site uses cookies to serve personalized ads from Google. <a href="https://policies.google.com/technologies/cookies" target="_blank" style="color:#e67e22;">Learn more</a>.</p>
