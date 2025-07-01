@@ -36,7 +36,7 @@
     crossorigin="anonymous"></script>
   <script>
     (adsbygoogle = window.adsbygoogle || []).push({
-      google_ad_client: "ca-pub-6600375635602117", // Replace with your AdSense code
+      google_ad_client: "ca-pub-6600375635602117",
       enable_page_level_ads: true
     });
   </script>
@@ -61,7 +61,7 @@
     <label for="bulkInput" style="color:#666; font-size: 0.85rem; font-weight: bold; margin-top: -10px; margin-bottom: 6px; display: block;">
       Format: Lastname, First Name Middle Initial
     </label>
-    <input type="text" id="nameInput" placeholder="Enter your name" />
+    <input type="text" id="nameInput" placeholder="Enter your name" oninput="this.value = this.value.toUpperCase()" />
     <div class="button-group">
       <button onclick="generateQR()">Generate QR</button>
       <button onclick="downloadQR()" id="downloadBtn" disabled>Download QR</button>

@@ -93,6 +93,12 @@ h3 {
   margin-bottom: 20px;
 }
 
+input[type="text"],
+textarea {
+  text-transform: uppercase;
+}
+
+
 canvas {
   margin: 20px 0;
   width: 100%;

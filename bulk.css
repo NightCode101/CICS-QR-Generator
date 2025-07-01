@@ -97,6 +97,11 @@ h3 {
   margin-bottom: 20px;
 }
 
+input[type="text"],
+textarea {
+  text-transform: uppercase;
+}
+
 textarea {
   width: 100%;
   height: 150px;

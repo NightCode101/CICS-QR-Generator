@@ -40,7 +40,6 @@ function generateQR() {
 function safeDrawCanvas(name, qrImg) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Draw background if available, fallback to white
   if (templateImage.complete && templateImage.naturalWidth !== 0) {
     ctx.drawImage(templateImage, 0, 0, canvas.width, canvas.height);
   } else {
