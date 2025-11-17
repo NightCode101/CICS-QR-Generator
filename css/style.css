@@ -845,6 +845,7 @@ body.dark-mode .page-privacy h2 {
   background: #ffffff;
   padding: 32px 24px;
   border-radius: 16px;
+  max-width: 800px;
   box-shadow: 0 8px 16px rgba(0,0,0,0.08);
   max-width: 500px;
   width: 100%;
@@ -1042,4 +1043,42 @@ body.dark-mode #modalQrName {
 */
 body.dark-mode .page-bulk .select-wrapper {
   color: #f3ede2;
+}
+
+/* --- AD CARD INTEGRATION --- */
+
+.ad-card-wrapper {
+    /* Inherit main card styles */
+    background: #ffffff; 
+    padding: 16px;
+    border-radius: 16px; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Lighter shadow */
+    width: 100%;
+    margin-top: 30px; 
+    transition: background-color 0.3s ease;
+    
+    /* Animation: make it slide up like the rest */
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slideUp 0.5s 0.6s ease-out forwards; 
+    max-width: 800px;
+}
+
+.ad-card-wrapper .ad-label {
+    text-align: center;
+    font-size: 0.75rem;
+    color: #5d5d5d;
+    margin-top: 0;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+/* Dark Mode Styles for Ad Wrapper */
+body.dark-mode .ad-card-wrapper {
+    background-color: #2d2d2d;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border: 1px solid #444;
+}
+body.dark-mode .ad-card-wrapper .ad-label {
+    color: #cccccc;
 }
