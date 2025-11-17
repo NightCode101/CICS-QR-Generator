@@ -1,26 +1,38 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#ffa500" />
-  <meta name="description" content="Generate student-ready QR codes using your name or bulk lists. CICS CSU Piat QR Generator is free and offline-ready.">
+
+  <title>CICS QR Generator - Bulk QR Creation</title>
+  <meta name="description"
+    content="Generate hundreds of QR codes at once with the Bulk QR Generator. Paste a list of ID|Name pairs and download a .zip file of all your codes." />
+
   <meta name="keywords" content="QR Code Generator, CICS, CSU Piat, Bulk QR, Student ID, QR Download">
   <meta name="author" content="Jeylo Baoit">
-  <meta property="og:title" content="CICS QR Code Generator" />
-  <meta property="og:description" content="Generate and download QR codes for students and events — no data stored!" />
-  <meta property="og:image" content="https://cics-qrgenerator.site/assets/preview.png" />
-  <meta property="og:url" content="https://cics-qrgenerator.site/" />
-  <meta name="twitter:card" content="summary_large_image" />
 
-  <title>CICS QR Generator - Bulk QR</title>
+  <meta property="og:title" content="Bulk QR Code Generator - CICS" />
+  <meta property="og:description"
+    content="Paste a list to generate hundreds of QR codes at once and download them all as a .zip file." />
+  <meta property="og:image" content="https://cics-qrgenerator.site/assets/og_image.png" />
+  <meta property="og:url" content="https://cics-qrgenerator.site/bulk.html" />
+  <meta property="og:type" content="website" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Bulk QR Code Generator - CICS" />
+  <meta name="twitter:description"
+    content="Paste a list to generate hundreds of QR codes at once and download them all as a .zip file." />
 
   <link rel="icon" href="favicon.png" sizes="48x48" type="image/png">
   <link rel="apple-touch-icon" href="favicon.png">
-  <link rel="canonical" href="https://cics-qrgenerator.site/" />
+  <link rel="canonical" href="https://cics-qrgenerator.site/bulk.html" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="preload" href="./assets/fonts/impact.ttf" as="font" type="font/ttf" crossorigin="anonymous">
   <link rel="manifest" href="manifest.json" />
 </head>
+
 <body class="page-bulk">
   <nav class="navbar rounded">
     <div class="nav-links">
@@ -57,7 +69,7 @@ ID456|LAST, FIRST M.I." oninput="this.value = this.value.toUpperCase()"></textar
         <button onclick="resetBulkQR()" id="resetBulkBtn" disabled>Reset</button>
       </div>
     </div>
-  </div>  
+  </div>
 
   <div class="history-container">
     <div class="bulk-controls">
@@ -69,7 +81,8 @@ ID456|LAST, FIRST M.I." oninput="this.value = this.value.toUpperCase()"></textar
     </div>
     <div id="loadingIndicator" class="loading-indicator" style="display:none">Generating...</div>
     <div id="bulkPreview" class="bulk-preview"></div>
-  </div> <div id="qrPreviewModal" class="modal-overlay">
+  </div>
+  <div id="qrPreviewModal" class="modal-overlay">
     <div class="modal-content">
       <span class="modal-close">&times;</span>
       <img id="modalQrImage" src="" alt="QR Code Preview" />
@@ -89,14 +102,16 @@ ID456|LAST, FIRST M.I." oninput="this.value = this.value.toUpperCase()"></textar
     <p>Contact: <a href="mailto:jeylodigitals@gmail.com">Email</a> | <a href="privacy.html">Privacy Policy & Terms</a>
     </p>
   </footer>
-  
-  <div id="toast" class="toast">Ready to generate!</div>  
-  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>  
+
+  <div id="toast" class="toast">Ready to generate!</div>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
   <script src="js/script.js"></script>
 
-  <div id="cookieConsent" style="display: none; position: fixed; bottom: 20px; left: 20px; right: 20px; background: #fff3e0; color: #333; padding: 15px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); max-width: 800px; margin: 0 auto; z-index: 999;">
-    </div>
-  
+  <div id="cookieConsent"
+    style="display: none; position: fixed; bottom: 20px; left: 20px; right: 20px; background: #fff3e0; color: #333; padding: 15px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); max-width: 800px; margin: 0 auto; z-index: 999;">
+  </div>
+
 </body>
+
 </html>
