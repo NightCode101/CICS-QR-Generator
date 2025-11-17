@@ -7,91 +7,32 @@
   <title>404 - Page Not Found</title>
   <link rel="icon" href="favicon.png" sizes="48x48" type="image/png" />
   <link rel="apple-touch-icon" href="favicon.png" />
-  <link rel="stylesheet" href="bulk.css" />
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(to bottom, #ffcc80, #ff9800);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      text-align: center;
-      color: #333;
-    }
-
-    .error-container {
-      background: #fff;
-      padding: 40px;
-      border-radius: 16px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-      max-width: 600px;
-      width: 90%;
-    }
-
-    h1 {
-      font-size: 72px;
-      margin: 0;
-      color: #e65100;
-      animation: blink 1.2s infinite;
-    }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
-    }
-
-    p {
-      font-size: 18px;
-      margin: 20px 0;
-    }
-
-    .qr-image {
-      width: 150px;
-      margin: 20px auto;
-      display: block;
-    }
-
-    a {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 12px 24px;
-      background: #fb8c00;
-      color: white;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: background 0.3s ease;
-    }
-
-    a:hover {
-      background: #ef6c00;
-    }
-
-    .footer {
-      margin-top: 30px;
-      font-size: 0.8rem;
-      color: #555;
-    }
-  </style>
+  <link rel="stylesheet" href="css/style.css" />
+  
   <script type='text/javascript' src='//pl27045197.profitableratecpm.com/85/64/0d/85640d3f57809b4d047a630563e4c184.js'></script>
 </head>
-<body>
-  <div class="error-container">
-    <h1>404</h1>
-    <p>Oops! The page you're looking for doesn’t exist.</p>
-    <img src="assets/qr-illustration.gif" alt="QR Illustration" class="qr-image" />
-    <a href="index.html">Go Back Home</a>
-    <div class="footer">
-      © 2025 CICS QR Generator · Jeylo Baoit
+<body class="page-404">
+  <nav class="navbar rounded">
+    <div class="nav-links">
+      <a href="index.html">Single QR</a>
+      <a href="bulk.html">Bulk QR</a>
     </div>
+    <button id="themeToggle" class="theme-toggle">🌙</button>
+  </nav>
+  
+  <div class="error-container">
+    <img src="assets/qr-illustration.gif" alt="CICS QR Generator Logo" class="qr-image" />
+    <h1>404</h1>
+    <p>Page Not Found</p>
+    <span class="error-message">Sorry, the page you are looking for doesn't exist or has been moved.</span>
+    <a href="index.html" class="error-button">Go Back Home</a>
   </div>
 
   <div id="ad-wrapper">
     <script async="async" data-cfasync="false" src="//pl27044628.profitableratecpm.com/1487b35cf7ba7ee4c4ca882e6e8654f2/invoke.js"></script>
     <div id="container-1487b35cf7ba7ee4c4ca882e6e8654f2"></div>
   </div>
+  
+  <script src="js/script.js"></script>
 </body>
 </html>

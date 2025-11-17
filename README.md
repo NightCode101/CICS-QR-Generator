@@ -5,18 +5,21 @@
 <h2 align="center">CICS CSU Piat QR Generator</h2>
 
 <p align="center">
-  Generate student-ready QR codes using your name or bulk lists.<br>
-  <strong>Free</strong> and <strong>offline-ready</strong>.
+  Generate student-ready QR codes using your ID and name or bulk lists.<br>
+  <strong>Free</strong>, <strong>offline-ready</strong>, and <strong>dark-mode enabled</strong>.
 </p>
 
 ---
 
 ## ✨ Features
 
-- **Single QR Generator** – Enter a name or ID to generate a QR code instantly.
-- **Bulk QR Generator** – Upload a list to generate multiple QR codes in one go.
-- **Downloadable Outputs** – Save each QR as an image file.
-- **QR History** – View and manage past QR codes (with a “Clear” option).
+- **Modern App UI:** Redesigned with a responsive, 2-column app-style layout.
+- **Dark Mode:** Supports both manual-toggle and system-preferred dark mode.
+- **Single QR Generator:** Enter a Student ID and Name to generate a custom QR code. The ID is hidden in the final image, with only the name displayed.
+- **Bulk QR Generator:** Paste a list of `ID|Name` pairs to generate multiple QR codes at once.
+- **Live History Preview:** Click on any QR code in your history (on both single and bulk pages) to see a large preview in a modal window.
+- **Downloadable Outputs:** Save each QR as a PNG file or download all selected bulk QRs as a `.zip` file.
+- **Offline PWA:** Works as an installable Progressive Web App (PWA) with full offline functionality.
 
 ---
 
@@ -24,23 +27,37 @@
 
 Check out the working version at:  
 https://www.cics-qrgenerator.site/  
-It includes a template preview, download/reset buttons, and a clearable history panel.
 
 ---
 
 ## 🖥️ Tech Stack
 
 - Pure HTML, CSS, & JavaScript
-- Works offline – no internet required for QR code generation
+- Service Worker for PWA & offline caching
 
 ---
 
 ## 📌 Usage
 
-1. Clone or download the repository.
-2. Open `index.html` in your browser.
-3. Use the single or bulk generator to create QR codes.
-5. Download your QR codes or reset the view.
+1.  Clone or download the repository.
+2.  Open `index.html` in your browser.
+
+### Single QR
+1.  Enter the **Student ID** (e.g., `089774`) in the first field.
+2.  Enter the **Name** (e.g., `BAOIT, JEYLO M.`) in the second field.
+3.  Click "Generate QR".
+    * The QR code data will be `089774|BAOIT, JEYLO M.`.
+    * The image will only show the name `BAOIT, JEYLO M.`.
+
+### Bulk QR
+1.  Click on the "Bulk QR" tab.
+2.  Paste your data into the text area using the format `ID|Name` for each line.
+    ```
+    ID123|LAST, FIRST M.I.
+    ID456|DOE, JOHN A.
+    ID789|SMITH, JANE B.
+    ```
+3.  Click "Generate All".
 
 ---
 
@@ -48,5 +65,4 @@ It includes a template preview, download/reset buttons, and a clearable history 
 
 - Simple cookie banner for ad personalization (Google)
 - Includes links for Contact and Privacy Policy
-- © 2025 CICS QR Generator – Jeylo Baoit
-- 
+- © 2025 CICS QR Generator – Jeylo Baoit

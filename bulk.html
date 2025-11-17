@@ -17,43 +17,26 @@
   <link rel="icon" href="favicon.png" sizes="48x48" type="image/png">
   <link rel="apple-touch-icon" href="favicon.png">
   <link rel="canonical" href="https://cics-qrgenerator.site/" />
-  <link rel="stylesheet" href="bulk.css" />
-  <link rel="preload" href="./assets/impact.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preload" href="./assets/fonts/impact.ttf" as="font" type="font/ttf" crossorigin="anonymous">
   <link rel="manifest" href="manifest.json" />
-  
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-471DJPG993"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-471DJPG993');
-  </script>
-
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6600375635602117"
-    crossorigin="anonymous"></script>
-  <script>
-     window.addEventListener('load', function () {
-      (adsbygoogle = window.adsbygoogle || []).push({
-        google_ad_client: "ca-pub-6600375635602117",
-        enable_page_level_ads: true
-      });
-    });
-  </script>
 </head>
-<body>
+<body class="page-bulk">
   <nav class="navbar rounded">
-    <a href="index.html">Single QR</a>
-    <a href="bulk.html" class="active">Bulk QR</a>
+    <div class="nav-links">
+      <a href="index.html">Single QR</a>
+      <a href="bulk.html" class="active">Bulk QR</a>
+    </div>
+    <button id="themeToggle" class="theme-toggle">🌙</button>
   </nav>
 
-  <div class="container">
+  <div class="form-card">
     <div class="canvas-wrapper">
       <h1>CICS CSU Piat</h1>
       <h3>Bulk QR Code Generator</h3>
       <div class="qr-display">
         <img id="previewImage" src="./assets/preview.png" alt="Template Preview" />
         <canvas id="qrCanvas" width="1024" height="1024" style="display: none;"></canvas>
-
         <div id="previewOverlay" class="preview-overlay">
           <div class="spinner"></div>
           <span>Generating...</span>
@@ -61,23 +44,13 @@
       </div>
     </div>
 
-    <div id="ad-wrapper">
-      <ins class="adsbygoogle"
-      style="display:block"
-      data-ad-client="ca-pub-6600375635602117"
-      data-ad-slot="3872600662"
-      data-ad-format="auto"
-      data-full-width-responsive="true"></ins>
-      <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
-    </div>
-
     <div class="form-wrapper">
-      <label for="bulkInput" style="color:#666; font-size: 0.85rem; font-weight: bold; margin-top: -10px; margin-bottom: 6px; display: block;">
-        Format: Last Name, First Name Middle Initial
+      <label for="bulkInput">
+        Format: ID|Name (one per line)
       </label>
-      <textarea id="bulkInput" placeholder="Paste names or data here..." oninput="this.value = this.value.toUpperCase()"></textarea>
+      <textarea id="bulkInput" placeholder="Paste data here...
+ID123|LAST, FIRST M.I.
+ID456|LAST, FIRST M.I." oninput="this.value = this.value.toUpperCase()"></textarea>
       <div class="button-group">
         <button onclick="generateBulkQRs()">Generate All</button>
         <button onclick="downloadSelectedZipped()" id="zipBtn" disabled>Download Selected as ZIP</button>
@@ -92,62 +65,38 @@
         <input type="checkbox" id="selectAll" onchange="toggleSelectAll(this)">
         <span>Select All</span>
       </label>
-      <button id="clearSelectionBtn" onclick="clearSelection()">🧹 Clear All</button>
-    </div><div id="loadingIndicator" class="loading-indicator" style="display:none">Generating...</div>
-
-    <div id="bulkPreview" class="bulk-preview"></div>
-    <div id="ad-wrapper">
-      <ins class="adsbygoogle"
-      style="display:block"
-      data-ad-client="ca-pub-6600375635602117"
-      data-ad-slot="3872600662"
-      data-ad-format="auto"
-      data-full-width-responsive="true"></ins>
-      <script>
-        window.addEventListener('load', function () {
-          (adsbygoogle = window.adsbygoogle || []).push({});
-        });
-      </script>
+      <button id="clearSelectionBtn" onclick="clearSelection()">Clear All</button>
     </div>
-  </div>  
-  
-  <div id="ad-wrapper">
-    <script async="async" data-cfasync="false" src="//pl27044628.profitableratecpm.com/1487b35cf7ba7ee4c4ca882e6e8654f2/invoke.js"></script>
-    <div id="container-1487b35cf7ba7ee4c4ca882e6e8654f2"></div>
+    <div id="loadingIndicator" class="loading-indicator" style="display:none">Generating...</div>
+    <div id="bulkPreview" class="bulk-preview"></div>
+  </div> <div id="qrPreviewModal" class="modal-overlay">
+    <div class="modal-content">
+      <span class="modal-close">&times;</span>
+      <img id="modalQrImage" src="" alt="QR Code Preview" />
+      <p id="modalQrName"></p>
+    </div>
   </div>
 
   <footer class="footer">
     <p>College of Information and Computing Sciences</p>
     <p>© 2025 CICS QR Generator · Jeylo Baoit</p>
-    <p>Sponsored by: 
-      <a href="https://www.profitableratecpm.com/d4cck9teba?key=d1eeac7f01de1042b04d81eb080d0b03" target="_blank" rel="noopener noreferrer">
+    <p>Sponsored by:
+      <a href="https://www.profitableratecpm.com/d4cck9teba?key=d1eeac7f01de1042b04d81eb080d0b03" target="_blank"
+        rel="noopener noreferrer">
         Partner Link
       </a>
     </p>
-    <p>Contact: <a href="mailto:baoitjerialle@gmail.com">Email</a> | <a href="privacy.html">Privacy Policy & Terms</a></p>
+    <p>Contact: <a href="mailto:jeylodigitals@gmail.com">Email</a> | <a href="privacy.html">Privacy Policy & Terms</a>
+    </p>
   </footer>
   
   <div id="toast" class="toast">Ready to generate!</div>  
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>  
-  <script src="bulk.js"></script>
+  <script src="js/script.js"></script>
 
   <div id="cookieConsent" style="display: none; position: fixed; bottom: 20px; left: 20px; right: 20px; background: #fff3e0; color: #333; padding: 15px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); max-width: 800px; margin: 0 auto; z-index: 999;">
-    <p style="margin: 0;">This site uses cookies to serve personalized ads from Google. <a href="https://policies.google.com/technologies/cookies" target="_blank" style="color:#e67e22;">Learn more</a>.</p>
-    <button onclick="acceptCookies()" style="margin-top: 10px; background: #e67e22; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Accept</button>
-  </div>
+    </div>
   
-  <script>
-    function acceptCookies() {
-      localStorage.setItem("cookieConsent", "true");
-      document.getElementById("cookieConsent").style.display = "none";
-    }
-  
-    window.addEventListener("DOMContentLoaded", () => {
-      if (!localStorage.getItem("cookieConsent")) {
-        document.getElementById("cookieConsent").style.display = "block";
-      }
-    });
-  </script>
 </body>
 </html>

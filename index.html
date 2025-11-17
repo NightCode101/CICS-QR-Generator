@@ -1,9 +1,12 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#ffa500" />
-  <meta name="description" content="Generate student-ready QR codes using your name or bulk lists. CICS CSU Piat QR Generator is free and offline-ready.">
+  <meta name="description"
+    content="Generate student-ready QR codes using your name or bulk lists. CICS CSU Piat QR Generator is free and offline-ready.">
   <meta name="keywords" content="QR Code Generator, CICS, CSU Piat, Bulk QR, Student ID, QR Download">
   <meta name="author" content="Jeylo Baoit">
   <meta property="og:title" content="CICS QR Code Generator" />
@@ -13,143 +16,106 @@
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="CICS QR Code Generator" />
-  <meta name="twitter:description" content="Generate student-ready QR codes using your name or bulk lists. CICS CSU Piat QR Generator is free and offline-ready." />
+  <meta name="twitter:description"
+    content="Generate student-ready QR codes using your name or bulk lists. CICS CSU Piat QR Generator is free and offline-ready." />
 
   <title>CICS QR Code Generator - Single QR</title>
 
   <link rel="icon" href="favicon.png" sizes="48x48" type="image/png">
   <link rel="apple-touch-icon" href="favicon.png">
   <link rel="canonical" href="https://cics-qrgenerator.site/" />
-  <link rel="stylesheet" href="style.css" />
-  <link rel="preload" href="./assets/impact.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preload" href="./assets/fonts/impact.ttf" as="font" type="font/ttf" crossorigin="anonymous">
   <link rel="manifest" href="manifest.json" />
-  
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-471DJPG993"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-471DJPG993');
-  </script>
-
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6600375635602117"
-    crossorigin="anonymous"></script>
-  <script>
-    (adsbygoogle = window.adsbygoogle || []).push({
-      google_ad_client: "ca-pub-6600375635602117",
-      enable_page_level_ads: true
-    });
-  </script>
 </head>
-<body>
+
+<body class="page-single">
   <nav class="navbar rounded">
-    <a href="index.html" class="active">Single QR</a>
-    <a href="bulk.html">Bulk QR</a>
-  </nav>  
-
-  <div class="container">
-    <div class="canvas-wrapper">
-      <h1>CICS CSU Piat</h1>
-      <h3>QR Code Generator</h3>
-      <div class="qr-display">
-        <img id="previewImage" src="./assets/preview.png" alt="Template Preview" />
-        <canvas id="qrCanvas" width="2160" height="2160" style="display: none;"></canvas>
-      </div>
+    <div class="nav-links">
+      <a href="index.html" class="active">Single QR</a>
+      <a href="bulk.html">Bulk QR</a>
     </div>
+    <button id="themeToggle" class="theme-toggle">🌙</button>
+  </nav>
 
-  <div class="form-wrapper">
-    <label for="bulkInput" style="color:#666; font-size: 0.85rem; font-weight: bold; margin-top: -10px; margin-bottom: 6px; display: block;">
-      Format: Last Name, First Name Middle Initial
-    </label>
-    <input type="text" id="nameInput" placeholder="Enter your name" oninput="this.value = this.value.toUpperCase()" />
-    <div class="button-group">
-      <button onclick="generateQR()">Generate QR</button>
-      <button onclick="downloadQR()" id="downloadBtn" disabled>Download QR</button>
-      <button onclick="resetQR()" id="resetBtn" disabled>Reset</button>
+  <div class="app-layout">
+
+    <div class="main-column">
+
+      <div class="form-card">
+        <h1>CICS CSU Piat</h1>
+        <h3>QR Code Generator</h3>
+        <div class="form-wrapper">
+          <label for="idInput">Student ID</label>
+          <input type="text" id="idInput" placeholder="Enter your ID" oninput="this.value = this.value.toUpperCase()" />
+
+          <label for="nameInput" style="margin-top: 10px;">Name (Last, First M.I.)</label>
+          <input type="text" id="nameInput" placeholder="Enter your name"
+            oninput="this.value = this.value.toUpperCase()" />
+
+          <div class="button-group" style="margin-top: 20px;">
+            <button onclick="generateQR()">Generate QR</button>
+            <button onclick="downloadQR()" id="downloadBtn" disabled>Download QR</button>
+            <button onclick="resetQR()" id="resetBtn" disabled>Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="history-container">
+        <div id="qrHistory" class="qr-history">
+          <div class="qr-history-header">
+            <h4>QR History</h4>
+            <button id="clearHistoryBtn" onclick="clearHistory()">Clear</button>
+          </div>
+          <div class="history-list" id="historyList"></div>
+        </div>
+      </div>
+
+    </div>
+    <div class="sidebar-column">
+      <div class="canvas-wrapper">
+        <div class="qr-display">
+          <img id="previewImage" src="./assets/preview.png" alt="Template Preview" />
+          <canvas id="qrCanvas" width="2160" height="2160" style="display: none;"></canvas>
+        </div>
+      </div>
     </div>
   </div>
 
-  <ins class="adsbygoogle"
-    style="display:block"
-    data-ad-client="ca-pub-6600375635602117"
-    data-ad-slot="3872600662"
-    data-ad-format="auto"
-    data-full-width-responsive="true"></ins>
-  <script>
-     window.addEventListener('load', function () {
-      (adsbygoogle = window.adsbygoogle || []).push({});
-     });
-  </script>
-
-  <ins class="adsbygoogle"
-    style="display:block"
-    data-ad-format="autorelaxed"
-    data-ad-client="ca-pub-6600375635602117"
-    data-ad-slot="5399937771"></ins>
-  <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>
-  </div>  
-
-  <div class="history-container">
-    <div id="qrHistory" class="qr-history">
-      <div class="qr-history-header">
-        <h4>QR History</h4>
-        <button id="clearHistoryBtn" onclick="clearHistory()">🧹 Clear</button>
-      </div>
-      <div class="history-list" id="historyList"></div>
+  <div id="qrPreviewModal" class="modal-overlay">
+    <div class="modal-content">
+      <span class="modal-close">&times;</span>
+      <img id="modalQrImage" src="" alt="QR Code Preview" />
+      <p id="modalQrName"></p>
     </div>
-  <div id="ad-wrapper">
-    <ins class="adsbygoogle"
-    style="display:block"
-    data-ad-client="ca-pub-6600375635602117"
-    data-ad-slot="3872600662"
-    data-ad-format="auto"
-    data-full-width-responsive="true"></ins>
-    <script>
-      window.addEventListener('load', function () {
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      });
-    </script>
-  </div>
-  </div>  
-  
-
-  <div id="ad-wrapper">
-    <script async="async" data-cfasync="false" src="//pl27044628.profitableratecpm.com/1487b35cf7ba7ee4c4ca882e6e8654f2/invoke.js"></script>
-    <div id="container-1487b35cf7ba7ee4c4ca882e6e8654f2"></div>
   </div>
 
   <footer class="footer">
     <p>College of Information and Computing Sciences</p>
     <p>© 2025 CICS QR Generator · Jeylo Baoit</p>
-    <p>Sponsored by: 
-      <a href="https://www.profitableratecpm.com/d4cck9teba?key=d1eeac7f01de1042b04d81eb080d0b03" target="_blank" rel="noopener noreferrer">
+    <p>Sponsored by:
+      <a href="https://www.profitableratecpm.com/d4cck9teba?key=d1eeac7f01de1042b04d81eb080d0b03" target="_blank"
+        rel="noopener noreferrer">
         Partner Link
       </a>
     </p>
-  <p>Contact: <a href="mailto:baoitjerialle@gmail.com">Email</a> | <a href="privacy.html">Privacy Policy & Terms</a></p>
+    <p>Contact: <a href="mailto:jeylodigitals@gmail.com">Email</a> | <a href="privacy.html">Privacy Policy & Terms</a>
+    </p>
   </footer>
-  
-  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>  <script src="script.js"></script>  
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <script src="js/script.js"></script>
   <div id="toast" class="toast">Ready to generate another QR!</div>
 
-  <div id="cookieConsent" style="display: none; position: fixed; bottom: 20px; left: 20px; right: 20px; background: #fff3e0; color: #333; padding: 15px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); max-width: 800px; margin: 0 auto; z-index: 999;">
-    <p style="margin: 0;">This site uses cookies to serve personalized ads from Google. <a href="https://policies.google.com/technologies/cookies" target="_blank" style="color:#e67e22;">Learn more</a>.</p>
-    <button onclick="acceptCookies()" style="margin-top: 10px; background: #e67e22; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Accept</button>
+  <div id="cookieConsent"
+    style="display: none; position: fixed; bottom: 20px; left: 20px; right: 20px; background: #fff3e0; color: #333; padding: 15px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); max-width: 800px; margin: 0 auto; z-index: 999;">
+    <p style="margin: 0;">This site uses cookies to serve personalized ads from Google. <a
+        href="https://policies.google.com/technologies/cookies" target="_blank" style="color:#e67e22;">Learn more</a>.
+    </p>
+    <button onclick="acceptCookies()"
+      style="margin-top: 10px; background: #e67e22; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Accept</button>
   </div>
-  
-  <script>
-    function acceptCookies() {
-      localStorage.setItem("cookieConsent", "true");
-      document.getElementById("cookieConsent").style.display = "none";
-    }
-  
-    window.addEventListener("DOMContentLoaded", () => {
-      if (!localStorage.getItem("cookieConsent")) {
-        document.getElementById("cookieConsent").style.display = "block";
-      }
-    });
-  </script> 
+
 </body>
+
 </html>
