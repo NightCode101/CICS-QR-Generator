@@ -39,7 +39,7 @@
       <a href="index.html" class="active">Single QR</a>
       <a href="bulk.html">Bulk QR</a>
     </div>
-    <button id="themeToggle" class="theme-toggle">🌙</button>
+    <button id="themeToggle" class="theme-toggle">🌙 Dark</button>
   </nav>
 
   <div class="app-layout">
@@ -50,8 +50,9 @@
         <h1>CICS CSU Piat</h1>
         <h3>QR Code Generator</h3>
         <div class="form-wrapper">
-          <label for="idInput">Student ID</label>
-          <input type="text" id="idInput" placeholder="Enter your ID" oninput="this.value = this.value.toUpperCase()" />
+          <label for="idInput">Student ID Number</label>
+          <input type="text" id="idInput" placeholder="Enter your ID Number"
+            oninput="this.value = this.value.toUpperCase()" />
 
           <label for="nameInput" style="margin-top: 10px;">Name (Last, First M.I.)</label>
           <input type="text" id="nameInput" placeholder="Enter your name"
@@ -89,7 +90,8 @@
   <div class="ad-card-wrapper">
     <p class="ad-label">ADVERTISEMENT</p>
 
-    <script async="async" data-cfasync="false" src="//pl27044628.effectivegatecpm.com/1487b35cf7ba7ee4c4ca882e6e8654f2/invoke.js"></script>
+    <script async="async" data-cfasync="false"
+      src="//pl27044628.effectivegatecpm.com/1487b35cf7ba7ee4c4ca882e6e8654f2/invoke.js"></script>
     <div id="container-1487b35cf7ba7ee4c4ca882e6e8654f2"></div>
   </div>
 
@@ -114,17 +116,47 @@
     </p>
   </footer>
 
+  <div id="confirmModal" class="confirm-overlay">
+    <div class="confirm-content">
+      <h4>Confirm QR Generation</h4>
+    <p>Please confirm the data below.</p>
+    
+    <div id="data-display-area">
+        <p class="data-label">Student ID Number:</p>
+        <code id="confirmID"></code>
+        <p class="data-label" style="margin-top: 10px;">Name:</p>
+        <code id="confirmName"></code>
+    </div>
+    
+    <div class="confirm-buttons">
+      <button id="cancelBtn" class="alert-cancel-button">Cancel</button>
+      <button id="confirmBtn" class="alert-ok-button">Confirm & Generate</button>
+    </div>
+    </div>
+  </div>
+
+  <div id="customAlert" class="alert-overlay">
+    <div class="alert-content">
+      <p id="alertMessage"></p>
+      <button id="alertOkBtn" class="alert-ok-button">OK</button>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
   <script src="js/script.js"></script>
   <div id="toast" class="toast">Ready to generate another QR!</div>
 
   <div id="cookieConsent"
     style="display: none; position: fixed; bottom: 20px; left: 20px; right: 20px; background: #fff3e0; color: #333; padding: 15px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); max-width: 800px; margin: 0 auto; z-index: 999;">
-    <p style="margin: 0;">This site uses cookies to serve personalized ads from Google. <a
-        href="https://policies.google.com/technologies/cookies" target="_blank" style="color:#e67e22;">Learn more</a>.
-    </p>
-    <button onclick="acceptCookies()"
-      style="margin-top: 10px; background: #e67e22; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Accept</button>
+    <p style="margin: 0;">This website utilizes essential browser storage for core functionality, such as theme
+      preference and session history. Third-party monetization providers may also utilize cookies to facilitate
+      services. <a href="privacy.html" style="color:#e59e02; font-weight: 600;">Review our policy for details.</a></p>
+    <div class="cookie-buttons" style="margin-top: 10px; display: flex; gap: 8px; justify-content: flex-end;">
+      <button onclick="dismissCookies()"
+        style="background: #ccc; color: #333; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: normal;">Dismiss</button>
+      <button onclick="acceptCookies()"
+        style="background: #e59e02; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Accept</button>
+    </div>
   </div>
 
 </body>

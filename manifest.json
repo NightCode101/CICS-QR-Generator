@@ -1,6 +1,6 @@
 {
     "name": "CICS QR Generator",
-    "short_name": "QR Generator",
+    "short_name": "CICS QR Generator",
     "start_url": "./index.html",
     "display": "standalone",
     "background_color": "#ffffff",

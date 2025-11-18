@@ -31,12 +31,23 @@ function getFontSize(name) {
 }
 
 /**
- * Hides the cookie consent banner and saves the user's choice.
+ * Hides the cookie consent banner and saves the user's choice as ACCEPTED.
  */
 function acceptCookies() {
-  localStorage.setItem("cookieConsent", "true");
-  document.getElementById("cookieConsent").style.display = "none";
+  localStorage.setItem("cookieConsent", "accepted");
+  const consentEl = document.getElementById("cookieConsent");
+  if (consentEl) consentEl.style.display = "none";
 }
+
+/**
+ * Hides the cookie consent banner and saves the user's choice as DISMISSED (Opt-out).
+ */
+function dismissCookies() {
+  localStorage.setItem("cookieConsent", "dismissed");
+  const consentEl = document.getElementById("cookieConsent");
+  if (consentEl) consentEl.style.display = "none";
+}
+
 
 // =======================================================================
 // ---  2. PAGE-SPECIFIC LOGIC (Runs based on body class)  ---
@@ -44,7 +55,26 @@ function acceptCookies() {
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // --- THEME TOGGLE LOGIC ---
+  // --- GLOBAL STATE & ELEMENTS ---
+  let dataToGenerate = null;
+  let isBulkGeneration = false;
+  
+  // FIXED: Placeholders are only needed for the Confirmation Logic
+  let startSingleGeneration = null;
+  let startBulkGeneration = null; 
+
+  const alertModal = document.getElementById('customAlert');
+  const alertMessageEl = document.getElementById('alertMessage');
+  const alertOkBtn = document.getElementById('alertOkBtn'); 
+
+  const confirmModal = document.getElementById('confirmModal');
+  const confirmIDEl = document.getElementById('confirmID');
+  const confirmNameEl = document.getElementById('confirmName');
+  
+  const confirmBtn = document.getElementById('confirmBtn');
+  const cancelBtn = document.getElementById('cancelBtn');
+
+  // --- THEME TOGGLE LOGIC (UNCHANGED) ---
   const themeToggle = document.getElementById('themeToggle');
   const body = document.body;
 
@@ -79,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
   
-  // --- Cookie consent logic ---
+  // --- Cookie consent logic (UNCHANGED) ---
   if (!localStorage.getItem("cookieConsent")) {
     const consentBanner = document.getElementById("cookieConsent");
     if (consentBanner) {
@@ -87,13 +117,36 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // --- SHARED MODAL LOGIC (for both pages) ---
+  // =======================================================
+  // --- CUSTOM ALERT LOGIC (Replaces native alert()) ---
+  // =======================================================
+
+  const dismissAlert = () => {
+    if(alertModal) alertModal.classList.remove('show');
+  };
+
+  const showAlert = (message) => {
+    if(alertMessageEl) alertMessageEl.textContent = message;
+    if(alertModal) alertModal.classList.add('show');
+  };
+  
+  // Attach listeners if the alert modal exists
+  if (alertModal) { 
+    if (alertOkBtn) alertOkBtn.onclick = dismissAlert; 
+    document.addEventListener('keydown', (e) => {
+      if (e.key === "Escape" && alertModal.classList.contains('show')) {
+        dismissAlert();
+      }
+    });
+    window.showAlert = showAlert;
+  }
+
+  // --- SHARED MODAL LOGIC (UNCHANGED) ---
   const modal = document.getElementById('qrPreviewModal');
   const modalImg = document.getElementById('modalQrImage');
   const modalName = document.getElementById('modalQrName');
   const closeModalBtn = document.querySelector('.modal-close');
 
-  // Define functions in the wide scope
   const closeModal = () => {
     if(modal) modal.classList.remove('show');
   };
@@ -104,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if(modal) modal.classList.add('show');
   };
   
-  // Attach listeners *only if* the modal exists on the page
+  // Attach listeners if the modal exists
   if (modal) { 
     closeModalBtn.onclick = closeModal;
     modal.onclick = (e) => {
@@ -113,6 +166,70 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
   }
+  
+  // =======================================================
+  // --- CONFIRMATION MODAL LOGIC ---
+  // =======================================================
+  
+  /**
+   * Opens the confirmation modal, displaying data separately or as bulk info.
+   */
+  const openConfirmModal = (dataString, bulkMode = false) => {
+    isBulkGeneration = bulkMode;
+    dataToGenerate = dataString;
+
+    if (!confirmModal) return;
+
+    // Get headers for dynamic text update
+    const h4 = confirmModal.querySelector('h4');
+    const p = confirmModal.querySelector('p');
+
+    if (bulkMode) {
+      // BULK MODE (Kept simple as it's not strictly necessary)
+      h4.textContent = "Confirm Bulk Generation";
+      p.innerHTML = `You are processing ${dataString.length} items. The QR codes will contain data formatted as <code>ID|NAME</code>. Proceed?`;
+      if (confirmIDEl) confirmIDEl.textContent = '---';
+      if (confirmNameEl) confirmNameEl.textContent = 'Bulk Job: See console for raw data.';
+      
+      console.log('Bulk Data to be Processed:', dataString);
+
+    } else {
+      // SINGLE MODE: Parse and display ID and Name separately
+      const parts = dataString.split('|');
+      const id = parts[0].trim();
+      const name = parts[1].trim();
+
+      h4.textContent = "Confirm Single QR Generation";
+      p.innerHTML = `Please verify the data below. This exact string will be encoded in the QR code:`;
+      if (confirmIDEl) confirmIDEl.textContent = id;
+      if (confirmNameEl) confirmNameEl.textContent = name;
+    }
+
+    confirmModal.classList.add('show');
+  };
+
+  const closeConfirmModal = () => {
+    if(confirmModal) confirmModal.classList.remove('show');
+  };
+
+  // The central function that executes the action after user confirmation
+  const proceedGeneration = () => {
+    if (isBulkGeneration) {
+        // FIXED: Calls the generation function directly 
+        if (startBulkGeneration) startBulkGeneration(dataToGenerate);
+    } else {
+        if (startSingleGeneration) startSingleGeneration(dataToGenerate);
+    }
+  };
+
+  if (confirmModal) {
+    if (cancelBtn) cancelBtn.onclick = closeConfirmModal;
+    if (confirmBtn) confirmBtn.onclick = () => {
+      closeConfirmModal();
+      proceedGeneration();
+    };
+  }
+  // =======================================================
 
 
   // --- SINGLE PAGE LOGIC (index.html) ---
@@ -122,18 +239,49 @@ document.addEventListener('DOMContentLoaded', () => {
     const ctx = canvas.getContext('2d');
     const historyListEl = document.getElementById('historyList');
 
+    // FIXED: Assign function to the global placeholder
+    startSingleGeneration = (qrData) => {
+      // Extract name from the validated data (ID|Name)
+      const name = qrData.split('|')[1].trim(); 
+
+      document.getElementById('previewImage').style.display = 'none';
+      document.getElementById('qrCanvas').style.display = 'block';
+
+      QRCode.toDataURL(qrData, {
+        width: 600,
+        margin: 0,
+        errorCorrectionLevel: 'H',
+        type: 'image/png'
+      }, function (err, url) {
+        if (err) return console.error(err);
+
+        const qrImg = new Image();
+        qrImg.src = url;
+
+        qrImg.onload = () => {
+          document.fonts.load('20px ImpactCustom').then(() => {
+            if (templateImage.complete || templateImage.naturalWidth !== 0) {
+              safeDrawCanvas(name, qrImg);
+            } else {
+              templateImage.onload = () => safeDrawCanvas(name, qrImg);
+              templateImage.onerror = () => safeDrawCanvas(name, qrImg);
+            }
+          });
+        };
+      });
+    };
+    
     // --- Modal Open Event (using event delegation) ---
     if(historyListEl) {
       historyListEl.addEventListener('click', (e) => {
         const historyItem = e.target.closest('.history-item');
-        if (!historyItem) return; // Didn't click on an item
+        if (!historyItem) return;
 
         const img = historyItem.querySelector('img');
         const name = historyItem.querySelector('p');
 
         if (!img || !name) return;
         
-        // Use the global openModal function (which is now in scope)
         openModal(img.src, name.textContent);
       });
     }
@@ -172,45 +320,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     /**
-     * Generates a single QR code from the input field.
+     * Intercepts click, validates, and shows confirmation modal.
      */
     window.generateQR = function() {
       const id = document.getElementById('idInput').value.trim();
       const name = document.getElementById('nameInput').value.trim();
       
       if (!id || !name) {
-        alert("Please enter both an ID and a Name.");
+        showAlert("Please enter both an ID and a Name."); 
         return;
       }
 
       const qrData = `${id}|${name}`;
-
-      document.getElementById('previewImage').style.display = 'none';
-      document.getElementById('qrCanvas').style.display = 'block';
-
-      QRCode.toDataURL(qrData, {
-        width: 600,
-        margin: 0,
-        errorCorrectionLevel: 'H',
-        type: 'image/png'
-      }, function (err, url) {
-        if (err) return console.error(err);
-
-        const qrImg = new Image();
-        qrImg.src = url;
-
-        qrImg.onload = () => {
-          document.fonts.load('20px ImpactCustom').then(() => {
-            if (templateImage.complete || templateImage.naturalWidth !== 0) {
-              safeDrawCanvas(name, qrImg);
-            } else {
-              templateImage.onload = () => safeDrawCanvas(name, qrImg);
-              templateImage.onerror = () => safeDrawCanvas(name, qrImg);
-            }
-          });
-        };
-      });
-    }
+      openConfirmModal(qrData, false); // Open confirmation for single generation
+    };
 
     /**
      * Downloads the generated QR code as a PNG file.
@@ -218,7 +341,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.downloadQR = function() {
       let name = document.getElementById('nameInput').value.trim();
       if (!name) {
-        alert("Please generate a QR first.");
+        showAlert("Please generate a QR first."); 
         return;
       }
       name = name.replace(/[^a-z0-9_\-]/gi, '_');
@@ -310,120 +433,14 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const bulkPreviewEl = document.getElementById('bulkPreview');
 
-    // --- Modal Open Event (using event delegation) ---
-    if(bulkPreviewEl) {
-      bulkPreviewEl.addEventListener('click', (e) => {
-        // Don't open modal if a checkbox was clicked
-        if (e.target.matches('input[type="checkbox"]')) {
-          return;
-        }
-
-        const previewItem = e.target.closest('.preview-item');
-        if (!previewItem) return;
-
-        const img = previewItem.querySelector('img');
-        const label = previewItem.querySelector('label');
-        
-        // Get name from the label text, skipping the checkbox
-        const name = label.textContent.trim();
-
-        if (!img || !name) return;
-        
-        // Use the global openModal function (which is now in scope)
-        openModal(img.src, name);
-      });
-    }
-
-    /**
-     * Toggles all preview checkboxes based on the master "Select All" checkbox.
-     */
-    window.toggleSelectAll = function(masterCheckbox) {
-      const checkboxes = document.querySelectorAll('.qr-checkbox');
-      checkboxes.forEach(cb => cb.checked = masterCheckbox.checked);
-    }
-
-    /**
-     * Clears all generated bulk previews and localStorage.
-     */
-    window.clearSelection = function() {
-      document.getElementById('bulkPreview').innerHTML = '';
-      localStorage.removeItem('bulkQRData');
-      document.getElementById('zipBtn').disabled = true;
-      document.getElementById('selectAll').checked = false;
-      showToast("All previews cleared.");
-    }
-
-    /**
-     * Downloads all selected QR codes as a single ZIP file.
-     */
-    window.downloadSelectedZipped = function() {
-      const zip = new JSZip();
-      const checkboxes = document.querySelectorAll('.qr-checkbox:checked');
-      if (!checkboxes.length) return showToast("No QR selected.");
-
-      checkboxes.forEach(cb => {
-        const data = cb.dataset.img;
-        const name = cb.dataset.name.replace(/[^a-z0-9_\-]/gi, '_');
-        zip.file(`${name}.png`, data.split(',')[1], { base64: true });
-      });
-
-      zip.generateAsync({ type: "blob" }).then(content => {
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(content);
-        a.download = "qr_codes.zip";
-        a.click();
-      });
-    }
-
-    /**
-     * Resets the bulk input text area.
-     */
-    window.resetBulkQR = function() {
-      document.getElementById('bulkInput').value = '';
-      document.querySelectorAll('.qr-checkbox').forEach(cb => cb.checked = false);
-      document.getElementById('selectAll').checked = false;
-      showToast("Ready to generate another QR!");
-    }
-
-    /**
-     * Creates a preview item element for the bulk list.
-     */
-    function createPreviewItem(name, dataURL) {
-      const item = document.createElement('div');
-      item.className = 'preview-item';
-
-      const img = new Image();
-      img.src = dataURL;
-
-      const label = document.createElement('label');
-      label.className = 'preview-label';
-
-      const checkbox = document.createElement('input');
-      checkbox.type = 'checkbox';
-      checkbox.className = 'qr-checkbox';
-      checkbox.dataset.name = name;
-      checkbox.dataset.img = dataURL;
-
-      label.appendChild(checkbox);
-      label.append(" " + name); // Add name after checkbox
-
-      item.appendChild(img);
-      item.appendChild(label);
-      return item;
-    }
-
-    /**
-     * Generates QR codes for all names in the text area.
-     */
-    window.generateBulkQRs = function() {
-      const input = document.getElementById('bulkInput').value.trim();
-      if (!input) return showToast("Please paste some data.");
-
-      const lines = input.split('\n').map(l => l.trim()).filter(l => l);
+    // FIXED: Assign function to the global placeholder
+    startBulkGeneration = (lines) => {
+      
       const preview = document.getElementById('bulkPreview');
       const loading = document.getElementById('loadingIndicator');
       const overlay = document.getElementById('previewOverlay');
-
+      
+      // Re-initialize state elements needed for the loop
       preview.innerHTML = '';
       loading.style.display = 'block';
       overlay.classList.add('show');
@@ -518,6 +535,134 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
       generateNext();
+    };
+
+
+    // --- Modal Open Event (using event delegation) ---
+    if(bulkPreviewEl) {
+      bulkPreviewEl.addEventListener('click', (e) => {
+        // Don't open modal if a checkbox was clicked
+        if (e.target.matches('input[type="checkbox"]')) {
+          return;
+        }
+
+        const previewItem = e.target.closest('.preview-item');
+        if (!previewItem) return;
+
+        const img = previewItem.querySelector('img');
+        const label = previewItem.querySelector('label');
+        
+        // Get name from the label text, skipping the checkbox
+        const name = label.textContent.trim();
+
+        if (!img || !name) return;
+        
+        openModal(img.src, name);
+      });
+    }
+
+    /**
+     * Toggles all preview checkboxes based on the master "Select All" checkbox.
+     */
+    window.toggleSelectAll = function(masterCheckbox) {
+      const checkboxes = document.querySelectorAll('.qr-checkbox');
+      checkboxes.forEach(cb => cb.checked = masterCheckbox.checked);
+    }
+
+    /**
+     * Clears all generated bulk previews and localStorage.
+     */
+    window.clearSelection = function() {
+      document.getElementById('bulkPreview').innerHTML = '';
+      localStorage.removeItem('bulkQRData');
+      document.getElementById('zipBtn').disabled = true;
+      document.getElementById('selectAll').checked = false;
+      showToast("All previews cleared.");
+    }
+
+    /**
+     * Downloads all selected QR codes as a single ZIP file.
+     */
+    window.downloadSelectedZipped = function() {
+      const zip = new JSZip();
+      const checkboxes = document.querySelectorAll('.qr-checkbox:checked');
+      if (!checkboxes.length) return showToast("No QR selected.");
+
+      checkboxes.forEach(cb => {
+        const data = cb.dataset.img;
+        const name = cb.dataset.name.replace(/[^a-z0-9_\-]/gi, '_');
+        zip.file(`${name}.png`, data.split(',')[1], { base64: true });
+      });
+
+      zip.generateAsync({ type: "blob" }).then(content => {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(content);
+        a.download = "qr_codes.zip";
+        a.click();
+      });
+    }
+
+    /**
+     * Resets the bulk input text area.
+     */
+    window.resetBulkQR = function() {
+      document.getElementById('bulkInput').value = '';
+      document.querySelectorAll('.qr-checkbox').forEach(cb => cb.checked = false);
+      document.getElementById('selectAll').checked = false;
+      showToast("Ready to generate another QR!");
+    }
+
+    /**
+     * Creates a preview item element for the bulk list.
+     */
+    function createPreviewItem(name, dataURL) {
+      const item = document.createElement('div');
+      item.className = 'preview-item';
+
+      const img = new Image();
+      img.src = dataURL;
+
+      const label = document.createElement('label');
+      label.className = 'preview-label';
+
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.className = 'qr-checkbox';
+      checkbox.dataset.name = name;
+      checkbox.dataset.img = dataURL;
+
+      label.appendChild(checkbox);
+      label.append(" " + name); // Add name after checkbox
+
+      item.appendChild(img);
+      item.appendChild(label);
+      return item;
+    }
+
+    /**
+     * Intercepts click, validates, and starts generation directly.
+     */
+    window.generateBulkQRs = function() {
+      const input = document.getElementById('bulkInput').value.trim();
+      if (!input) return showToast("Please paste some data.");
+
+      const lines = input.split('\n').map(l => l.trim()).filter(l => l);
+      
+      let validCount = 0;
+
+      lines.forEach(line => {
+        const parts = line.split('|');
+        if (parts.length === 2 && parts[0].trim() && parts[1].trim()) {
+          validCount++;
+        }
+      });
+
+      if (validCount === 0) {
+        return showAlert("No valid ID|Name data found in the input. Please check the format.");
+      }
+
+      // FIXED: Call the generation function directly, bypassing the confirmation modal
+      if (startBulkGeneration) startBulkGeneration(lines);
     }
     
     // Listener for "Select All" checkbox logic
