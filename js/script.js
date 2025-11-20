@@ -325,7 +325,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (templateImage.complete && templateImage.naturalWidth !== 0) {
         ctx.drawImage(templateImage, 0, 0, canvas.width, canvas.height);
       } else {
-        ctx.fillStyle = '#fff';
+        ctx.fillStyle = '#f3ede2';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
       }
 
@@ -337,7 +337,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Draw text (Only the name)
       ctx.font = `bold ${getFontSize(name)}px ImpactCustom, sans-serif`;
-      ctx.fillStyle = '#000'; // QR text is always black
+      ctx.fillStyle = '#e59e02'; // QR text is always black
       ctx.textAlign = 'center';
       ctx.fillText(name.toUpperCase(), canvas.width / 2, 1820);
 
@@ -538,7 +538,7 @@ document.addEventListener('DOMContentLoaded', () => {
               ctx.drawImage(qrImg, qrX, qrY, qrSize, qrSize);
 
               ctx.font = `bold ${getFontSize(nameToDraw)}px ImpactCustom, sans-serif`;
-              ctx.fillStyle = '#000';
+              ctx.fillStyle = '#e59e02';
               ctx.textAlign = 'center';
               ctx.fillText(nameToDraw.toUpperCase(), canvas.width / 2, 1820);
 
@@ -556,7 +556,7 @@ document.addEventListener('DOMContentLoaded', () => {
               ctx.drawImage(templateImage, 0, 0, canvas.width, canvas.height);
               drawQR();
             } else {
-              ctx.fillStyle = "#ffffff";
+              ctx.fillStyle = "#f3ede2";
               ctx.fillRect(0, 0, canvas.width, canvas.height);
               drawQR();
             }
