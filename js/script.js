@@ -486,7 +486,7 @@ document.addEventListener('DOMContentLoaded', () => {
           document.getElementById('zipBtn').disabled = false;
           document.getElementById('resetBulkBtn').disabled = false;
           
-          let successMessage = `✅ ${allData.length} QR codes complete!`;
+          let successMessage = `${allData.length} QR codes complete!`;
           if (errorCount > 0) {
             successMessage += ` (${errorCount} lines failed due to incorrect format.)`;
           }
