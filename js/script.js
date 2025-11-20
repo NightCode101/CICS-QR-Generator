@@ -238,37 +238,62 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('qrCanvas');
     const ctx = canvas.getContext('2d');
     const historyListEl = document.getElementById('historyList');
+    // NEW: Get the overlay element
+    const singlePreviewOverlay = document.getElementById('singlePreviewOverlay');
 
     // FIXED: Assign function to the global placeholder
     startSingleGeneration = (qrData) => {
       // Extract name from the validated data (ID|Name)
       const name = qrData.split('|')[1].trim(); 
+      
+      // NEW: 1. Show the overlay immediately
+      if (singlePreviewOverlay) {
+          singlePreviewOverlay.classList.add('show');
+      }
 
+      // Hide the template image and prepare the canvas for drawing
       document.getElementById('previewImage').style.display = 'none';
       document.getElementById('qrCanvas').style.display = 'block';
 
-      QRCode.toDataURL(qrData, {
-        width: 600,
-        margin: 0,
-        errorCorrectionLevel: 'H',
-        type: 'image/png'
-      }, function (err, url) {
-        if (err) return console.error(err);
+      // NEW: 2. Implement a 1-second delay before starting the heavy lifting
+      setTimeout(() => {
+        // The rest of the original logic goes inside here
 
-        const qrImg = new Image();
-        qrImg.src = url;
+        QRCode.toDataURL(qrData, {
+          width: 600,
+          margin: 0,
+          errorCorrectionLevel: 'H',
+          type: 'image/png'
+        }, function (err, url) {
+          if (err) {
+              console.error(err);
+              // Hide overlay on error
+              if (singlePreviewOverlay) singlePreviewOverlay.classList.remove('show');
+              return;
+          }
 
-        qrImg.onload = () => {
-          document.fonts.load('20px ImpactCustom').then(() => {
-            if (templateImage.complete || templateImage.naturalWidth !== 0) {
-              safeDrawCanvas(name, qrImg);
-            } else {
-              templateImage.onload = () => safeDrawCanvas(name, qrImg);
-              templateImage.onerror = () => safeDrawCanvas(name, qrImg);
-            }
-          });
-        };
-      });
+          const qrImg = new Image();
+          qrImg.src = url;
+
+          qrImg.onload = () => {
+            document.fonts.load('20px ImpactCustom').then(() => {
+              if (templateImage.complete || templateImage.naturalWidth !== 0) {
+                safeDrawCanvas(name, qrImg);
+              } else {
+                templateImage.onload = () => safeDrawCanvas(name, qrImg);
+                templateImage.onerror = () => safeDrawCanvas(name, qrImg);
+              }
+              // NEW: 3. Hide the overlay after the canvas is drawn
+              if (singlePreviewOverlay) singlePreviewOverlay.classList.remove('show');
+            });
+          };
+          // Handle image load failure (e.g., corrupted image or network)
+          qrImg.onerror = () => {
+              console.error("Failed to load QR image for drawing.");
+              if (singlePreviewOverlay) singlePreviewOverlay.classList.remove('show');
+          };
+        });
+      }, 1000); // 1000 milliseconds = 1 second delay
     };
     
     // --- Modal Open Event (using event delegation) ---
@@ -290,6 +315,10 @@ document.addEventListener('DOMContentLoaded', () => {
      * Draws the complete QR code with background and text onto the canvas.
      */
     function safeDrawCanvas(name, qrImg) {
+      // ... (no changes needed here) ...
+      // The overlay is hidden right after this is called
+      
+      // ... (existing code for safeDrawCanvas) ...
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // Draw background

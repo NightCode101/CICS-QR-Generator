@@ -352,6 +352,7 @@ button:active:not(:disabled) {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative; /* Ensure overlay is positioned correctly */
 }
 
 .page-single .qr-display img,
@@ -460,6 +461,41 @@ button:active:not(:disabled) {
 .page-single #clearHistoryBtn:hover {
   background-color: #b71c1c;
   transform: translateY(-1px);
+}
+
+/* NEW: Single Page Preview Overlay (for 1s delay animation) */
+.page-single .preview-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(255, 255, 255, 0.9); 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 10;
+  font-weight: 600;
+  font-size: 16px;
+  color: #fd7f09; 
+  border-radius: 12px; /* Match the canvas/img border */
+}
+
+.page-single .preview-overlay.show {
+  opacity: 1;
+  pointer-events: auto; /* Allow clicks on the overlay when showing */
+}
+
+.page-single .spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(229, 158, 2, 0.3); 
+  border-top: 4px solid #e59e02; 
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 12px;
 }
 
 
@@ -776,6 +812,17 @@ body.dark-mode .page-bulk .spinner {
   border: 4px solid rgba(229, 158, 2, 0.2); 
   border-top: 4px solid #e59e02; 
 }
+
+/* NEW: Single Page Dark Mode Overlay */
+body.dark-mode .page-single .preview-overlay {
+  background: rgba(45, 45, 45, 0.9);
+}
+
+body.dark-mode .page-single .spinner {
+  border: 4px solid rgba(229, 158, 2, 0.2); 
+  border-top: 4px solid #e59e02; 
+}
+
 
 /* --- Index Page Divider --- */
 body.dark-mode .page-single .qr-history-header {
@@ -1099,7 +1146,6 @@ body.dark-mode .ad-card-wrapper .ad-label {
   display: flex;
   align-items: center;
   justify-content: center;
-  
   /* Initial state (hidden) */
   opacity: 0;
   pointer-events: none;
@@ -1113,7 +1159,7 @@ body.dark-mode .ad-card-wrapper .ad-label {
 
 .alert-content {
   /* Card matching the dark mode style */
-  background-color: #2d2d2d; 
+  background-color: #fff3e0; 
   padding: 24px;
   border-radius: 16px;
   max-width: 350px;
@@ -1133,7 +1179,7 @@ body.dark-mode .ad-card-wrapper .ad-label {
 #alertMessage {
   font-size: 16px;
   font-weight: 500;
-  color: #f3ede2; /* Light text on dark card */
+  color: #2d2d2d; /* Light text on dark card */
   margin: 0 0 20px 0;
   line-height: 1.4;
 }
