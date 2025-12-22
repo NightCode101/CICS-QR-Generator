@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const alertModal = document.getElementById('customAlert');
   const alertMessageEl = document.getElementById('alertMessage');
-  const alertOkBtn = document.getElementById('alertOkBtn'); 
+  const alertOkBtn = document.querySelector('.alert-ok-button'); // Fixed selector if class is used
 
   const confirmModal = document.getElementById('confirmModal');
   const confirmIDEl = document.getElementById('confirmID');
@@ -315,10 +315,6 @@ document.addEventListener('DOMContentLoaded', () => {
      * Draws the complete QR code with background and text onto the canvas.
      */
     function safeDrawCanvas(name, qrImg) {
-      // ... (no changes needed here) ...
-      // The overlay is hidden right after this is called
-      
-      // ... (existing code for safeDrawCanvas) ...
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // Draw background
@@ -596,6 +592,10 @@ document.addEventListener('DOMContentLoaded', () => {
     window.toggleSelectAll = function(masterCheckbox) {
       const checkboxes = document.querySelectorAll('.qr-checkbox');
       checkboxes.forEach(cb => cb.checked = masterCheckbox.checked);
+      
+      // FIX: Enable download button if at least one item is checked
+      const count = document.querySelectorAll('.qr-checkbox:checked').length;
+      document.getElementById('zipBtn').disabled = count === 0;
     }
 
     /**
@@ -611,23 +611,54 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /**
      * Downloads all selected QR codes as a single ZIP file.
+     * UPDATED: Now fetches images from DOM to prevent memory errors.
      */
     window.downloadSelectedZipped = function() {
+      // Check if JSZip is loaded
+      if (typeof JSZip === 'undefined') {
+        showAlert("Error: JSZip library not loaded. Please refresh.");
+        return;
+      }
+
       const zip = new JSZip();
       const checkboxes = document.querySelectorAll('.qr-checkbox:checked');
       if (!checkboxes.length) return showToast("No QR selected.");
 
+      let count = 0;
+
       checkboxes.forEach(cb => {
-        const data = cb.dataset.img;
-        const name = cb.dataset.name.replace(/[^a-z0-9_\-]/gi, '_');
-        zip.file(`${name}.png`, data.split(',')[1], { base64: true });
+        // Find the preview item container associated with this checkbox
+        const item = cb.closest('.preview-item');
+        // Find the image tag within that container
+        const img = item ? item.querySelector('img') : null;
+
+        if (img && img.src) {
+            const data = img.src;
+            const name = cb.dataset.name.replace(/[^a-z0-9_\-]/gi, '_');
+            
+            // Extract the base64 data correctly (after "base64,")
+            const base64Data = data.split(',')[1];
+            if (base64Data) {
+                zip.file(`${name}.png`, base64Data, { base64: true });
+                count++;
+            }
+        }
       });
+
+      if (count === 0) {
+        showToast("Error: Could not retrieve image data.");
+        return;
+      }
+
+      showToast(`Zipping ${count} files...`);
 
       zip.generateAsync({ type: "blob" }).then(content => {
         const a = document.createElement('a');
         a.href = URL.createObjectURL(content);
-        a.download = "qr_codes.zip";
+        a.download = "CICS_QR_Codes.zip";
+        document.body.appendChild(a); // Required for Firefox
         a.click();
+        document.body.removeChild(a);
       });
     }
 
@@ -635,14 +666,23 @@ document.addEventListener('DOMContentLoaded', () => {
      * Resets the bulk input text area.
      */
     window.resetBulkQR = function() {
+      // Clear the input field
       document.getElementById('bulkInput').value = '';
+      
+      // Uncheck all boxes
       document.querySelectorAll('.qr-checkbox').forEach(cb => cb.checked = false);
       document.getElementById('selectAll').checked = false;
+      
+      // Disable the buttons again (since we are resetting)
+      document.getElementById('zipBtn').disabled = true;
+      document.getElementById('resetBulkBtn').disabled = true; // <-- ADD THIS TO DISABLE SELF
+      
       showToast("Ready to generate another QR!");
     }
 
     /**
      * Creates a preview item element for the bulk list.
+     * UPDATED: Removed heavy data from checkbox dataset.
      */
     function createPreviewItem(name, dataURL) {
       const item = document.createElement('div');
@@ -658,7 +698,7 @@ document.addEventListener('DOMContentLoaded', () => {
       checkbox.type = 'checkbox';
       checkbox.className = 'qr-checkbox';
       checkbox.dataset.name = name;
-      checkbox.dataset.img = dataURL;
+      // dataset.img REMOVED to save memory
 
       label.appendChild(checkbox);
       label.append(" " + name); // Add name after checkbox
@@ -700,7 +740,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const all = document.querySelectorAll('.qr-checkbox');
         const checked = document.querySelectorAll('.qr-checkbox:checked');
         const selectAll = document.getElementById('selectAll');
+        
+        // Update the "Select All" box visual state
         selectAll.checked = all.length > 0 && all.length === checked.length;
+        
+        // FIX: Enable/Disable Download button based on selection
+        document.getElementById('zipBtn').disabled = checked.length === 0;
       }
     });
 
@@ -713,7 +758,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const item = createPreviewItem(name, image);
         preview.appendChild(item);
       });
-      document.getElementById('zipBtn').disabled = false;
+      
+      // FIX: Enable BOTH buttons when data is loaded
+      document.getElementById('zipBtn').disabled = false; 
+      document.getElementById('resetBulkBtn').disabled = false; // <-- ADD THIS LINE
     }
   }
 });
