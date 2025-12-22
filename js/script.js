@@ -533,10 +533,15 @@ document.addEventListener('DOMContentLoaded', () => {
               const qrY = 360;
               ctx.drawImage(qrImg, qrX, qrY, qrSize, qrSize);
 
-              ctx.font = `bold ${getFontSize(nameToDraw)}px ImpactCustom, sans-serif`;
+              // FIX: Multiply font size by 2.4 to match the high-res canvas
+              const fontSize = getFontSize(nameToDraw) * 2.4; 
+              ctx.font = `bold ${fontSize}px ImpactCustom, sans-serif`;
+              
               ctx.fillStyle = '#e59e02';
               ctx.textAlign = 'center';
-              ctx.fillText(nameToDraw.toUpperCase(), canvas.width / 2, 1820);
+              
+              // FIX: Adjusted Y position to 1950 (was 1820) to make room for larger text
+              ctx.fillText(nameToDraw.toUpperCase(), canvas.width / 2, 1950);
 
               const dataURL = canvas.toDataURL();
               allData.push({ name: nameToDraw, image: dataURL });
