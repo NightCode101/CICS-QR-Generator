@@ -82,10 +82,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const applyTheme = (theme) => {
     if (theme === 'dark') {
       body.classList.add('dark-mode');
-      if(themeToggle) themeToggle.textContent = '☀️ Light'; // Sun icon
+      if(themeToggle) themeToggle.textContent = '☀️'; // Sun icon
     } else {
       body.classList.remove('dark-mode');
-      if(themeToggle) themeToggle.textContent = '🌙 Dark'; // Moon icon
+      if(themeToggle) themeToggle.textContent = '🌙'; // Moon icon
     }
   };
 
