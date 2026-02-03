@@ -23,11 +23,11 @@ function showToast(message) {
  * @returns {number} The calculated font size.
  */
 function getFontSize(name) {
-  const baseSize = 96;
+  const baseSize = 140; // Increased to fill the width of the blue lines
   if (name.length <= 10) return baseSize;
-  if (name.length <= 20) return baseSize - 16;
-  if (name.length <= 30) return baseSize - 28;
-  return baseSize - 36;
+  if (name.length <= 20) return baseSize - 30; // Sharper decrease for longer names
+  if (name.length <= 30) return baseSize - 50;
+  return baseSize - 70;
 }
 
 /**
@@ -335,7 +335,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.font = `bold ${getFontSize(name)}px ImpactCustom, sans-serif`;
       ctx.fillStyle = '#e59e02'; // QR text is always black
       ctx.textAlign = 'center';
-      ctx.fillText(name.toUpperCase(), canvas.width / 2, 1820);
+      ctx.fillText(name.toUpperCase(), canvas.width / 2, 1850);
 
       document.getElementById('downloadBtn').disabled = false;
       document.getElementById('resetBtn').disabled = false;
@@ -534,14 +534,14 @@ document.addEventListener('DOMContentLoaded', () => {
               ctx.drawImage(qrImg, qrX, qrY, qrSize, qrSize);
 
               // FIX: Multiply font size by 2.4 to match the high-res canvas
-              const fontSize = getFontSize(nameToDraw) * 2.4; 
+              const fontSize = getFontSize(nameToDraw) * 2.6; 
               ctx.font = `bold ${fontSize}px ImpactCustom, sans-serif`;
               
               ctx.fillStyle = '#e59e02';
               ctx.textAlign = 'center';
               
               // FIX: Adjusted Y position to 1950 (was 1820) to make room for larger text
-              ctx.fillText(nameToDraw.toUpperCase(), canvas.width / 2, 1950);
+              ctx.fillText(nameToDraw.toUpperCase(), canvas.width / 2, 1960);
 
               const dataURL = canvas.toDataURL();
               allData.push({ name: nameToDraw, image: dataURL });
