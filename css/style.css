@@ -494,7 +494,7 @@ button:active:not(:disabled) {
 
 .page-single #clearHistoryBtn {
   background-color: rgba(211, 47, 47, 0.1);
-  color: #D32F2F;
+  color: white;
   border: none;
   padding: 8px 16px;
   border-radius: 8px;
@@ -505,7 +505,7 @@ button:active:not(:disabled) {
 }
 
 .page-single #clearHistoryBtn:hover {
-  background-color: #D32F2F;
+  background-color: white;
   color: white;
   transform: translateY(-1px);
 }
@@ -657,7 +657,7 @@ button:active:not(:disabled) {
 .page-bulk #clearSelectionBtn {
   padding: 8px 16px;
   background-color: rgba(211, 47, 47, 0.1);
-  color: #D32F2F;
+  color: white;
   border: none;
   border-radius: 8px;
   font-size: 13px;
@@ -667,7 +667,7 @@ button:active:not(:disabled) {
 }
 
 .page-bulk #clearSelectionBtn:hover {
-  background-color: #D32F2F;
+  background-color: white;
   color: white;
   transform: translateY(-1px);
 }
