@@ -803,6 +803,17 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
+    // NEW: Helper function to standardize the beautiful "Student Info" layout
+    function getStudentInfoHtml(id, name) {
+      return `
+        <div style="text-align: left; display: inline-block; min-width: 220px;">
+          <div style="font-weight: 800; font-size: 1.1rem; color: var(--text-main); margin-bottom: 10px; border-bottom: 2px solid var(--primary-color); padding-bottom: 4px;">Student Info</div>
+          <div style="margin-bottom: 6px; font-size: 1rem;"><strong>ID:</strong> <span style="color: var(--primary-color);">${id}</span></div>
+          <div style="font-size: 1rem;"><strong>Name:</strong> <span style="color: var(--primary-color);">${name}</span></div>
+        </div>
+      `;
+    }
+
     // --- WRITE NATIVE NFC ---
     window.writeNFC = async function() {
       if (!checkNFCSupport()) return showAlert("Please use the external reader instead.");
@@ -812,8 +823,11 @@ document.addEventListener('DOMContentLoaded', () => {
       
       if (!id || !name) return showAlert("Please enter both ID and Name to write to the tag.");
       
+      // The actual raw data saved to the chip
       const dataString = `${id}|${name}`;
-      const displayString = `STUDENT ID: <span style="color: var(--primary-color);">${id}</span><br>NAME: <span style="color: var(--primary-color);">${name}</span>`;
+      
+      // The formatted layout for the screen
+      const displayString = getStudentInfoHtml(id, name);
 
       try {
         const ndef = new NDEFReader();
@@ -821,7 +835,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
         await ndef.write(dataString);
         
-        updateNfcUI("Success!", "✅", displayString);
+        // Updates the status text to "DATA SUCCESSFULLY WRITTEN"
+        updateNfcUI("DATA SUCCESSFULLY WRITTEN", "✅", displayString);
         showToast("Data written to NFC tag successfully!");
       } catch (error) {
         updateNfcUI("Write Failed", "❌", error.message);
@@ -859,12 +874,14 @@ document.addEventListener('DOMContentLoaded', () => {
                   document.getElementById('nfcIdInput').value = scannedId;
                   document.getElementById('nfcNameInput').value = scannedName;
                   
-                  displayData = `STUDENT ID: <span style="color: var(--primary-color);">${scannedId}</span><br>NAME: <span style="color: var(--primary-color);">${scannedName}</span>`;
+                  // Uses the helper to format the output
+                  displayData = getStudentInfoHtml(scannedId, scannedName);
               } else {
                   displayData = `RAW DATA:<br><span style="color: var(--primary-color);">${textData}</span>`;
               }
 
-              updateNfcUI("Tag Read!", "🏷️", displayData);
+              // Updates the status text to "TAG DETECTED"
+              updateNfcUI("TAG DETECTED", "🏷️", displayData);
               showToast("Tag successfully read!");
               return; 
             }
@@ -899,12 +916,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
           if(scanBuffer.includes('|')) {
               const parts = scanBuffer.split('|');
-              displayData = `STUDENT ID: <span style="color: var(--primary-color);">${parts[0].trim()}</span><br>NAME: <span style="color: var(--primary-color);">${parts[1].trim()}</span>`;
+              // Uses the helper to format the output
+              displayData = getStudentInfoHtml(parts[0].trim(), parts[1].trim());
           } else {
               displayData = `RAW ID / SERIAL:<br><span style="color: var(--primary-color);">${scanBuffer}</span>`;
           }
 
-          updateNfcUI("External Tag Read", "🔌", displayData);
+          // Updates the status text to "TAG DETECTED"
+          updateNfcUI("TAG DETECTED", "🔌", displayData);
           showToast("Tag scanned successfully!");
           
           scanBuffer = ''; 

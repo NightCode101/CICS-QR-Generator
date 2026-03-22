@@ -55,6 +55,19 @@
 
   <div class="app-layout">
 
+    <div class="sidebar-column">
+      <div class="canvas-wrapper">
+        <div class="qr-display">
+          <img id="previewImage" src="./assets/preview.png" alt="CICS CSU Piat QR Code Template Preview" />
+          <canvas id="qrCanvas" width="2160" height="2160" style="display: none;"></canvas>
+          <div id="singlePreviewOverlay" class="preview-overlay">
+            <div class="spinner"></div>
+            <span>Generating...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="main-column">
 
       <div class="form-card">
@@ -84,19 +97,6 @@
             <button id="clearHistoryBtn" onclick="clearHistory()">Clear</button>
           </div>
           <div class="history-list" id="historyList"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="sidebar-column">
-      <div class="canvas-wrapper">
-        <div class="qr-display">
-          <img id="previewImage" src="./assets/preview.png" alt="CICS CSU Piat QR Code Template Preview" />
-          <canvas id="qrCanvas" width="2160" height="2160" style="display: none;"></canvas>
-          <div id="singlePreviewOverlay" class="preview-overlay">
-            <div class="spinner"></div>
-            <span>Generating...</span>
-          </div>
         </div>
       </div>
     </div>
