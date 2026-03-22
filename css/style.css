@@ -1548,3 +1548,26 @@ body.dark-mode .nfc-data-display {
   border-color: #555;
   color: #ffffff;
 }
+
+/* --- NFC Instructions Modal Adjustments --- */
+.instruction-block h4 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+body.dark-mode .instruction-block h4 {
+  color: var(--primary-color) !important;
+}
+
+body.dark-mode .instruction-block p {
+  color: #a0a0a0 !important;
+}
+
+body.dark-mode .instruction-block ul {
+  color: #e0e0e0 !important;
+}
+
+body.dark-mode #nfcHelpBtn:hover {
+  background: rgba(229, 158, 2, 0.1) !important;
+}

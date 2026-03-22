@@ -58,10 +58,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- GLOBAL STATE & ELEMENTS ---
   let dataToGenerate = null;
   let isBulkGeneration = false;
-  
+
   // FIXED: Placeholders are only needed for the Confirmation Logic
   let startSingleGeneration = null;
-  let startBulkGeneration = null; 
+  let startBulkGeneration = null;
 
   const alertModal = document.getElementById('customAlert');
   const alertMessageEl = document.getElementById('alertMessage');
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const confirmModal = document.getElementById('confirmModal');
   const confirmIDEl = document.getElementById('confirmID');
   const confirmNameEl = document.getElementById('confirmName');
-  
+
   const confirmBtn = document.getElementById('confirmBtn');
   const cancelBtn = document.getElementById('cancelBtn');
 
@@ -82,10 +82,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const applyTheme = (theme) => {
     if (theme === 'dark') {
       body.classList.add('dark-mode');
-      if(themeToggle) themeToggle.textContent = '☀️'; // Sun icon
+      if (themeToggle) themeToggle.textContent = '☀️'; // Sun icon
     } else {
       body.classList.remove('dark-mode');
-      if(themeToggle) themeToggle.textContent = '🌙'; // Moon icon
+      if (themeToggle) themeToggle.textContent = '🌙'; // Moon icon
     }
   };
 
@@ -101,14 +101,14 @@ document.addEventListener('DOMContentLoaded', () => {
   applyTheme(currentTheme);
 
   // Add click event to the toggle button
-  if(themeToggle) {
+  if (themeToggle) {
     themeToggle.addEventListener('click', () => {
       const newTheme = body.classList.contains('dark-mode') ? 'light' : 'dark';
       localStorage.setItem('theme', newTheme);
       applyTheme(newTheme);
     });
   }
-  
+
   // --- Cookie consent logic (UNCHANGED) ---
   if (!localStorage.getItem("cookieConsent")) {
     const consentBanner = document.getElementById("cookieConsent");
@@ -122,17 +122,17 @@ document.addEventListener('DOMContentLoaded', () => {
   // =======================================================
 
   const dismissAlert = () => {
-    if(alertModal) alertModal.classList.remove('show');
+    if (alertModal) alertModal.classList.remove('show');
   };
 
   const showAlert = (message) => {
-    if(alertMessageEl) alertMessageEl.textContent = message;
-    if(alertModal) alertModal.classList.add('show');
+    if (alertMessageEl) alertMessageEl.textContent = message;
+    if (alertModal) alertModal.classList.add('show');
   };
-  
+
   // Attach listeners if the alert modal exists
-  if (alertModal) { 
-    if (alertOkBtn) alertOkBtn.onclick = dismissAlert; 
+  if (alertModal) {
+    if (alertOkBtn) alertOkBtn.onclick = dismissAlert;
     document.addEventListener('keydown', (e) => {
       if (e.key === "Escape" && alertModal.classList.contains('show')) {
         dismissAlert();
@@ -148,17 +148,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeModalBtn = document.querySelector('.modal-close');
 
   const closeModal = () => {
-    if(modal) modal.classList.remove('show');
+    if (modal) modal.classList.remove('show');
   };
 
   const openModal = (imgSrc, nameText) => {
-    if(modalImg) modalImg.src = imgSrc;
-    if(modalName) modalName.textContent = nameText.toUpperCase();
-    if(modal) modal.classList.add('show');
+    if (modalImg) modalImg.src = imgSrc;
+    if (modalName) modalName.textContent = nameText.toUpperCase();
+    if (modal) modal.classList.add('show');
   };
-  
+
   // Attach listeners if the modal exists
-  if (modal) { 
+  if (modal) {
     closeModalBtn.onclick = closeModal;
     modal.onclick = (e) => {
       if (e.target === modal) {
@@ -166,11 +166,11 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
   }
-  
+
   // =======================================================
   // --- CONFIRMATION MODAL LOGIC ---
   // =======================================================
-  
+
   /**
    * Opens the confirmation modal, displaying data separately or as bulk info.
    */
@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
       p.innerHTML = `You are processing ${dataString.length} items. The QR codes will contain data formatted as <code>ID|NAME</code>. Proceed?`;
       if (confirmIDEl) confirmIDEl.textContent = '---';
       if (confirmNameEl) confirmNameEl.textContent = 'Bulk Job: See console for raw data.';
-      
+
       console.log('Bulk Data to be Processed:', dataString);
 
     } else {
@@ -209,16 +209,16 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const closeConfirmModal = () => {
-    if(confirmModal) confirmModal.classList.remove('show');
+    if (confirmModal) confirmModal.classList.remove('show');
   };
 
   // The central function that executes the action after user confirmation
   const proceedGeneration = () => {
     if (isBulkGeneration) {
-        // FIXED: Calls the generation function directly 
-        if (startBulkGeneration) startBulkGeneration(dataToGenerate);
+      // FIXED: Calls the generation function directly 
+      if (startBulkGeneration) startBulkGeneration(dataToGenerate);
     } else {
-        if (startSingleGeneration) startSingleGeneration(dataToGenerate);
+      if (startSingleGeneration) startSingleGeneration(dataToGenerate);
     }
   };
 
@@ -234,7 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- SINGLE PAGE LOGIC (index.html) ---
   if (document.body.classList.contains('page-single')) {
-    
+
     const canvas = document.getElementById('qrCanvas');
     const ctx = canvas.getContext('2d');
     const historyListEl = document.getElementById('historyList');
@@ -244,11 +244,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // FIXED: Assign function to the global placeholder
     startSingleGeneration = (qrData) => {
       // Extract name from the validated data (ID|Name)
-      const name = qrData.split('|')[1].trim(); 
-      
+      const name = qrData.split('|')[1].trim();
+
       // NEW: 1. Show the overlay immediately
       if (singlePreviewOverlay) {
-          singlePreviewOverlay.classList.add('show');
+        singlePreviewOverlay.classList.add('show');
       }
 
       // Hide the template image and prepare the canvas for drawing
@@ -266,10 +266,10 @@ document.addEventListener('DOMContentLoaded', () => {
           type: 'image/png'
         }, function (err, url) {
           if (err) {
-              console.error(err);
-              // Hide overlay on error
-              if (singlePreviewOverlay) singlePreviewOverlay.classList.remove('show');
-              return;
+            console.error(err);
+            // Hide overlay on error
+            if (singlePreviewOverlay) singlePreviewOverlay.classList.remove('show');
+            return;
           }
 
           const qrImg = new Image();
@@ -289,15 +289,15 @@ document.addEventListener('DOMContentLoaded', () => {
           };
           // Handle image load failure (e.g., corrupted image or network)
           qrImg.onerror = () => {
-              console.error("Failed to load QR image for drawing.");
-              if (singlePreviewOverlay) singlePreviewOverlay.classList.remove('show');
+            console.error("Failed to load QR image for drawing.");
+            if (singlePreviewOverlay) singlePreviewOverlay.classList.remove('show');
           };
         });
       }, 1000); // 1000 milliseconds = 1 second delay
     };
-    
+
     // --- Modal Open Event (using event delegation) ---
-    if(historyListEl) {
+    if (historyListEl) {
       historyListEl.addEventListener('click', (e) => {
         const historyItem = e.target.closest('.history-item');
         if (!historyItem) return;
@@ -306,7 +306,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const name = historyItem.querySelector('p');
 
         if (!img || !name) return;
-        
+
         openModal(img.src, name.textContent);
       });
     }
@@ -343,16 +343,16 @@ document.addEventListener('DOMContentLoaded', () => {
       const dataURL = canvas.toDataURL('image/png');
       addToHistory(name, dataURL);
     }
-    
+
     /**
      * Intercepts click, validates, and shows confirmation modal.
      */
-    window.generateQR = function() {
+    window.generateQR = function () {
       const id = document.getElementById('idInput').value.trim();
       const name = document.getElementById('nameInput').value.trim();
-      
+
       if (!id || !name) {
-        showAlert("Please enter both an ID and a Name."); 
+        showAlert("Please enter both an ID and a Name.");
         return;
       }
 
@@ -363,10 +363,10 @@ document.addEventListener('DOMContentLoaded', () => {
     /**
      * Downloads the generated QR code as a PNG file.
      */
-    window.downloadQR = function() {
+    window.downloadQR = function () {
       let name = document.getElementById('nameInput').value.trim();
       if (!name) {
-        showAlert("Please generate a QR first."); 
+        showAlert("Please generate a QR first.");
         return;
       }
       name = name.replace(/[^a-z0-9_\-]/gi, '_');
@@ -379,7 +379,7 @@ document.addEventListener('DOMContentLoaded', () => {
     /**
      * Resets the QR generator interface.
      */
-    window.resetQR = function() {
+    window.resetQR = function () {
       const canvasEl = document.getElementById('qrCanvas');
       const previewEl = document.getElementById('previewImage');
 
@@ -416,7 +416,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <img src="${dataURL}" alt="${name}">
         <p>${name}</p>
       `;
-      historyList.prepend(item); 
+      historyList.prepend(item);
 
       saved.push({ name, dataURL });
       localStorage.setItem('qrHistory', JSON.stringify(saved));
@@ -443,28 +443,28 @@ document.addEventListener('DOMContentLoaded', () => {
     /**
      * Clears the QR history from the UI and localStorage.
      */
-    window.clearHistory = function() {
+    window.clearHistory = function () {
       document.getElementById('historyList').innerHTML = '';
       localStorage.removeItem('qrHistory');
       showToast("QR history cleared!");
     }
-    
+
     // Initial run for the single page
     loadHistory();
   }
-  
+
   // --- BULK PAGE LOGIC (bulk.html) ---
   if (document.body.classList.contains('page-bulk')) {
-    
+
     const bulkPreviewEl = document.getElementById('bulkPreview');
 
     // FIXED: Assign function to the global placeholder
     startBulkGeneration = (lines) => {
-      
+
       const preview = document.getElementById('bulkPreview');
       const loading = document.getElementById('loadingIndicator');
       const overlay = document.getElementById('previewOverlay');
-      
+
       // Re-initialize state elements needed for the loop
       preview.innerHTML = '';
       loading.style.display = 'block';
@@ -481,7 +481,7 @@ document.addEventListener('DOMContentLoaded', () => {
           localStorage.setItem('bulkQRData', JSON.stringify(allData));
           document.getElementById('zipBtn').disabled = false;
           document.getElementById('resetBulkBtn').disabled = false;
-          
+
           let successMessage = `${allData.length} QR codes complete!`;
           if (errorCount > 0) {
             successMessage += ` (${errorCount} lines failed due to incorrect format.)`;
@@ -523,7 +523,7 @@ document.addEventListener('DOMContentLoaded', () => {
           qrImg.onload = () => {
             document.fonts.load('20px ImpactCustom').then(drawCanvasWithFallback);
           };
-          
+
           function drawCanvasWithFallback() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -534,12 +534,12 @@ document.addEventListener('DOMContentLoaded', () => {
               ctx.drawImage(qrImg, qrX, qrY, qrSize, qrSize);
 
               // FIX: Multiply font size by 2.4 to match the high-res canvas
-              const fontSize = getFontSize(nameToDraw) * 2.6; 
+              const fontSize = getFontSize(nameToDraw) * 2.6;
               ctx.font = `bold ${fontSize}px ImpactCustom, sans-serif`;
-              
+
               ctx.fillStyle = '#e59e02';
               ctx.textAlign = 'center';
-              
+
               // FIX: Adjusted Y position to 1950 (was 1820) to make room for larger text
               ctx.fillText(nameToDraw.toUpperCase(), canvas.width / 2, 1960);
 
@@ -569,7 +569,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // --- Modal Open Event (using event delegation) ---
-    if(bulkPreviewEl) {
+    if (bulkPreviewEl) {
       bulkPreviewEl.addEventListener('click', (e) => {
         // Don't open modal if a checkbox was clicked
         if (e.target.matches('input[type="checkbox"]')) {
@@ -581,12 +581,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const img = previewItem.querySelector('img');
         const label = previewItem.querySelector('label');
-        
+
         // Get name from the label text, skipping the checkbox
         const name = label.textContent.trim();
 
         if (!img || !name) return;
-        
+
         openModal(img.src, name);
       });
     }
@@ -594,10 +594,10 @@ document.addEventListener('DOMContentLoaded', () => {
     /**
      * Toggles all preview checkboxes based on the master "Select All" checkbox.
      */
-    window.toggleSelectAll = function(masterCheckbox) {
+    window.toggleSelectAll = function (masterCheckbox) {
       const checkboxes = document.querySelectorAll('.qr-checkbox');
       checkboxes.forEach(cb => cb.checked = masterCheckbox.checked);
-      
+
       // FIX: Enable download button if at least one item is checked
       const count = document.querySelectorAll('.qr-checkbox:checked').length;
       document.getElementById('zipBtn').disabled = count === 0;
@@ -606,7 +606,7 @@ document.addEventListener('DOMContentLoaded', () => {
     /**
      * Clears all generated bulk previews and localStorage.
      */
-    window.clearSelection = function() {
+    window.clearSelection = function () {
       document.getElementById('bulkPreview').innerHTML = '';
       localStorage.removeItem('bulkQRData');
       document.getElementById('zipBtn').disabled = true;
@@ -618,7 +618,7 @@ document.addEventListener('DOMContentLoaded', () => {
      * Downloads all selected QR codes as a single ZIP file.
      * UPDATED: Now fetches images from DOM to prevent memory errors.
      */
-    window.downloadSelectedZipped = function() {
+    window.downloadSelectedZipped = function () {
       // Check if JSZip is loaded
       if (typeof JSZip === 'undefined') {
         showAlert("Error: JSZip library not loaded. Please refresh.");
@@ -638,15 +638,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const img = item ? item.querySelector('img') : null;
 
         if (img && img.src) {
-            const data = img.src;
-            const name = cb.dataset.name.replace(/[^a-z0-9_\-]/gi, '_');
-            
-            // Extract the base64 data correctly (after "base64,")
-            const base64Data = data.split(',')[1];
-            if (base64Data) {
-                zip.file(`${name}.png`, base64Data, { base64: true });
-                count++;
-            }
+          const data = img.src;
+          const name = cb.dataset.name.replace(/[^a-z0-9_\-]/gi, '_');
+
+          // Extract the base64 data correctly (after "base64,")
+          const base64Data = data.split(',')[1];
+          if (base64Data) {
+            zip.file(`${name}.png`, base64Data, { base64: true });
+            count++;
+          }
         }
       });
 
@@ -670,18 +670,18 @@ document.addEventListener('DOMContentLoaded', () => {
     /**
      * Resets the bulk input text area.
      */
-    window.resetBulkQR = function() {
+    window.resetBulkQR = function () {
       // Clear the input field
       document.getElementById('bulkInput').value = '';
-      
+
       // Uncheck all boxes
       document.querySelectorAll('.qr-checkbox').forEach(cb => cb.checked = false);
       document.getElementById('selectAll').checked = false;
-      
+
       // Disable the buttons again (since we are resetting)
       document.getElementById('zipBtn').disabled = true;
       document.getElementById('resetBulkBtn').disabled = true; // <-- ADD THIS TO DISABLE SELF
-      
+
       showToast("Ready to generate another QR!");
     }
 
@@ -716,12 +716,12 @@ document.addEventListener('DOMContentLoaded', () => {
     /**
      * Intercepts click, validates, and starts generation directly.
      */
-    window.generateBulkQRs = function() {
+    window.generateBulkQRs = function () {
       const input = document.getElementById('bulkInput').value.trim();
       if (!input) return showToast("Please paste some data.");
 
       const lines = input.split('\n').map(l => l.trim()).filter(l => l);
-      
+
       let validCount = 0;
 
       lines.forEach(line => {
@@ -738,17 +738,17 @@ document.addEventListener('DOMContentLoaded', () => {
       // FIXED: Call the generation function directly, bypassing the confirmation modal
       if (startBulkGeneration) startBulkGeneration(lines);
     }
-    
+
     // Listener for "Select All" checkbox logic
     document.addEventListener('change', (e) => {
       if (e.target.classList.contains('qr-checkbox')) {
         const all = document.querySelectorAll('.qr-checkbox');
         const checked = document.querySelectorAll('.qr-checkbox:checked');
         const selectAll = document.getElementById('selectAll');
-        
+
         // Update the "Select All" box visual state
         selectAll.checked = all.length > 0 && all.length === checked.length;
-        
+
         // FIX: Enable/Disable Download button based on selection
         document.getElementById('zipBtn').disabled = checked.length === 0;
       }
@@ -763,179 +763,282 @@ document.addEventListener('DOMContentLoaded', () => {
         const item = createPreviewItem(name, image);
         preview.appendChild(item);
       });
-      
+
       // FIX: Enable BOTH buttons when data is loaded
-      document.getElementById('zipBtn').disabled = false; 
+      document.getElementById('zipBtn').disabled = false;
       document.getElementById('resetBulkBtn').disabled = false; // <-- ADD THIS LINE
     }
   }
 });
 
 // --- NFC PAGE LOGIC (nfc.html) ---
-  if (document.body.classList.contains('page-nfc')) {
-    
-    const nfcStatusIcon = document.getElementById('nfcStatusIcon');
-    const nfcStatusText = document.getElementById('nfcStatusText');
-    const nfcResultData = document.getElementById('nfcResultData');
-    const externalReaderSection = document.getElementById('externalReaderSection');
+if (document.body.classList.contains('page-nfc')) {
 
-    // Check if device supports native Web NFC
-    const checkNFCSupport = () => {
-      if (!('NDEFReader' in window)) {
-        externalReaderSection.style.display = 'block';
-        showToast("Native Web NFC not supported. Use external reader.");
-        return false;
-      }
-      return true;
-    };
+  const nfcStatusIcon = document.getElementById('nfcStatusIcon');
+  const nfcStatusText = document.getElementById('nfcStatusText');
+  const nfcResultData = document.getElementById('nfcResultData');
+  const externalReaderSection = document.getElementById('externalReaderSection');
+  // --- NFC INSTRUCTIONS MODAL LOGIC ---
+  const nfcHelpBtn = document.getElementById('nfcHelpBtn');
+  const nfcInstructionsModal = document.getElementById('nfcInstructionsModal');
+  const closeNfcHelp = document.getElementById('closeNfcHelp');
+  const gotItBtn = document.getElementById('gotItBtn');
 
-    checkNFCSupport();
+  const openHelpModal = () => {
+    if (nfcInstructionsModal) nfcInstructionsModal.classList.add('show');
+  };
 
-    function updateNfcUI(status, icon, data = "", isScanning = false) {
-      nfcStatusText.textContent = status;
-      nfcStatusIcon.textContent = icon;
-      if (data) nfcResultData.innerHTML = data; 
-      
-      if (isScanning) {
-        nfcStatusIcon.classList.add('scanning-pulse');
-      } else {
-        nfcStatusIcon.classList.remove('scanning-pulse');
-      }
+  const closeHelpModal = () => {
+    if (nfcInstructionsModal) nfcInstructionsModal.classList.remove('show');
+  };
+
+  if (nfcHelpBtn) nfcHelpBtn.addEventListener('click', openHelpModal);
+  if (closeNfcHelp) closeNfcHelp.addEventListener('click', closeHelpModal);
+  if (gotItBtn) gotItBtn.addEventListener('click', closeHelpModal);
+
+  // Close modal if user clicks outside of it
+  if (nfcInstructionsModal) {
+    nfcInstructionsModal.addEventListener('click', (e) => {
+      if (e.target === nfcInstructionsModal) closeHelpModal();
+    });
+  }
+  // Check if device supports native Web NFC
+  const checkNFCSupport = () => {
+    if (!('NDEFReader' in window)) {
+      externalReaderSection.style.display = 'block';
+      showToast("Native Web NFC not supported. Use external reader.");
+      return false;
     }
+    return true;
+  };
 
-    // NEW: Helper function to standardize the beautiful "Student Info" layout
-    function getStudentInfoHtml(id, name) {
-      return `
+  checkNFCSupport();
+
+  function updateNfcUI(status, icon, data = "", isScanning = false) {
+    nfcStatusText.textContent = status;
+    nfcStatusIcon.textContent = icon;
+    if (data) nfcResultData.innerHTML = data;
+
+    if (isScanning) {
+      nfcStatusIcon.classList.add('scanning-pulse');
+    } else {
+      nfcStatusIcon.classList.remove('scanning-pulse');
+    }
+  }
+
+  // NEW: Helper function to standardize the beautiful "Student Info" layout
+  function getStudentInfoHtml(id, name) {
+    return `
         <div style="text-align: left; display: inline-block; min-width: 220px;">
           <div style="font-weight: 800; font-size: 1.1rem; color: var(--text-main); margin-bottom: 10px; border-bottom: 2px solid var(--primary-color); padding-bottom: 4px;">Student Info</div>
           <div style="margin-bottom: 6px; font-size: 1rem;"><strong>ID:</strong> <span style="color: var(--primary-color);">${id}</span></div>
           <div style="font-size: 1rem;"><strong>Name:</strong> <span style="color: var(--primary-color);">${name}</span></div>
         </div>
       `;
+  }
+
+  // --- WRITE NATIVE NFC ---
+  window.writeNFC = async function () {
+    if (!checkNFCSupport()) return showAlert("Please use the external reader instead.");
+
+    const id = document.getElementById('nfcIdInput').value.trim();
+    const name = document.getElementById('nfcNameInput').value.trim();
+
+    if (!id || !name) return showAlert("Please enter both ID and Name to write to the tag.");
+
+    // The actual raw data saved to the chip
+    const dataString = `${id}|${name}`;
+
+    // The formatted layout for the screen
+    const displayString = getStudentInfoHtml(id, name);
+
+    try {
+      const ndef = new NDEFReader();
+      updateNfcUI("Ready to Write", "📲", "Tap tag to back of device...", true);
+
+      await ndef.write(dataString);
+
+      // Updates the status text to "DATA SUCCESSFULLY WRITTEN"
+      updateNfcUI("DATA SUCCESSFULLY WRITTEN", "✅", displayString);
+      showToast("Data written to NFC tag successfully!");
+    } catch (error) {
+      updateNfcUI("Write Failed", "❌", error.message);
+      console.error("NFC Write Error: ", error);
+      showAlert(`Write failed: ${error.message}. Ensure NFC is enabled and tap the tag clearly.`);
     }
+  };
 
-    // --- WRITE NATIVE NFC ---
-    window.writeNFC = async function() {
-      if (!checkNFCSupport()) return showAlert("Please use the external reader instead.");
-      
-      const id = document.getElementById('nfcIdInput').value.trim();
-      const name = document.getElementById('nfcNameInput').value.trim();
-      
-      if (!id || !name) return showAlert("Please enter both ID and Name to write to the tag.");
-      
-      // The actual raw data saved to the chip
-      const dataString = `${id}|${name}`;
-      
-      // The formatted layout for the screen
-      const displayString = getStudentInfoHtml(id, name);
+  // --- READ NATIVE NFC ---
+  window.readNFC = async function () {
+    if (!checkNFCSupport()) return showAlert("Please use the external reader instead.");
 
-      try {
-        const ndef = new NDEFReader();
-        updateNfcUI("Ready to Write", "📲", "Tap tag to back of device...", true);
-        
-        await ndef.write(dataString);
-        
-        // Updates the status text to "DATA SUCCESSFULLY WRITTEN"
-        updateNfcUI("DATA SUCCESSFULLY WRITTEN", "✅", displayString);
-        showToast("Data written to NFC tag successfully!");
-      } catch (error) {
-        updateNfcUI("Write Failed", "❌", error.message);
-        console.error("NFC Write Error: ", error);
-        showAlert(`Write failed: ${error.message}. Ensure NFC is enabled and tap the tag clearly.`);
-      }
-    };
+    try {
+      const ndef = new NDEFReader();
+      updateNfcUI("Scanning...", "📡", "Hold tag near device...", true);
 
-    // --- READ NATIVE NFC ---
-    window.readNFC = async function() {
-      if (!checkNFCSupport()) return showAlert("Please use the external reader instead.");
-      
-      try {
-        const ndef = new NDEFReader();
-        updateNfcUI("Scanning...", "📡", "Hold tag near device...", true);
-        
-        await ndef.scan();
-        
-        ndef.onreadingerror = () => {
-          updateNfcUI("Read Error", "⚠️", "Cannot read tag data.");
-        };
+      await ndef.scan();
 
-        ndef.onreading = event => {
-          const decoder = new TextDecoder();
-          for (const record of event.message.records) {
-            if (record.recordType === "text") {
-              const textData = decoder.decode(record.data); 
-              let displayData = textData;
+      ndef.onreadingerror = () => {
+        updateNfcUI("Read Error", "⚠️", "Cannot read tag data.");
+      };
 
-              if(textData.includes('|')) {
-                  const parts = textData.split('|');
-                  const scannedId = parts[0].trim();
-                  const scannedName = parts[1].trim();
-                  
-                  document.getElementById('nfcIdInput').value = scannedId;
-                  document.getElementById('nfcNameInput').value = scannedName;
-                  
-                  // Uses the helper to format the output
-                  displayData = getStudentInfoHtml(scannedId, scannedName);
-              } else {
-                  displayData = `RAW DATA:<br><span style="color: var(--primary-color);">${textData}</span>`;
-              }
+      ndef.onreading = event => {
+        const decoder = new TextDecoder();
+        for (const record of event.message.records) {
+          if (record.recordType === "text") {
+            const textData = decoder.decode(record.data);
+            let displayData = textData;
 
-              // Updates the status text to "TAG DETECTED"
-              updateNfcUI("TAG DETECTED", "🏷️", displayData);
-              showToast("Tag successfully read!");
-              return; 
+            if (textData.includes('|')) {
+              const parts = textData.split('|');
+              const scannedId = parts[0].trim();
+              const scannedName = parts[1].trim();
+
+              document.getElementById('nfcIdInput').value = scannedId;
+              document.getElementById('nfcNameInput').value = scannedName;
+
+              // Uses the helper to format the output
+              displayData = getStudentInfoHtml(scannedId, scannedName);
+            } else {
+              displayData = `RAW DATA:<br><span style="color: var(--primary-color);">${textData}</span>`;
             }
+
+            // Updates the status text to "TAG DETECTED"
+            updateNfcUI("TAG DETECTED", "🏷️", displayData);
+            showToast("Tag successfully read!");
+            return;
           }
-          updateNfcUI("Empty/Unknown Format", "❓", "No text data found on tag.");
-        };
-      } catch (error) {
-        updateNfcUI("Scan Failed", "❌", error.message);
-        showAlert(`Scan failed: ${error.message}.`);
-      }
-    };
+        }
+        updateNfcUI("Empty/Unknown Format", "❓", "No text data found on tag.");
+      };
+    } catch (error) {
+      updateNfcUI("Scan Failed", "❌", error.message);
+      showAlert(`Scan failed: ${error.message}.`);
+    }
+  };
 
-    // --- EXTERNAL READER FALLBACK LOGIC (INVISIBLE SCANNER) ---
-    let scanBuffer = '';
-    let lastKeyTime = Date.now();
+  // --- EXTERNAL READER FALLBACK LOGIC (INVISIBLE SCANNER) ---
+  let scanBuffer = '';
+  let lastKeyTime = Date.now();
 
-    document.addEventListener('keydown', function(e) {
-      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  document.addEventListener('keydown', function (e) {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
 
-      const currentTime = Date.now();
-      
-      if (currentTime - lastKeyTime > 50) {
+    const currentTime = Date.now();
+
+    if (currentTime - lastKeyTime > 50) {
+      scanBuffer = '';
+    }
+    lastKeyTime = currentTime;
+
+    if (e.key === 'Enter') {
+      if (scanBuffer.trim().length > 0) {
+        e.preventDefault();
+
+        let displayData = scanBuffer;
+
+        if (scanBuffer.includes('|')) {
+          const parts = scanBuffer.split('|');
+          // Uses the helper to format the output
+          displayData = getStudentInfoHtml(parts[0].trim(), parts[1].trim());
+        } else {
+          displayData = `RAW ID / SERIAL:<br><span style="color: var(--primary-color);">${scanBuffer}</span>`;
+        }
+
+        // Updates the status text to "TAG DETECTED"
+        updateNfcUI("TAG DETECTED", "🔌", displayData);
+        showToast("Tag scanned successfully!");
+
         scanBuffer = '';
       }
-      lastKeyTime = currentTime;
+      return;
+    }
 
-      if (e.key === 'Enter') {
-        if (scanBuffer.trim().length > 0) {
-          e.preventDefault();
-          
-          let displayData = scanBuffer;
+    if (e.key.length === 1) {
+      scanBuffer += e.key;
+    }
+  });
+}
 
-          if(scanBuffer.includes('|')) {
-              const parts = scanBuffer.split('|');
-              // Uses the helper to format the output
-              displayData = getStudentInfoHtml(parts[0].trim(), parts[1].trim());
-          } else {
-              displayData = `RAW ID / SERIAL:<br><span style="color: var(--primary-color);">${scanBuffer}</span>`;
-          }
+// --- NFC SECURITY LOCK (FIREBASE INTEGRATION) ---
 
-          // Updates the status text to "TAG DETECTED"
-          updateNfcUI("TAG DETECTED", "🔌", displayData);
-          showToast("Tag scanned successfully!");
-          
-          scanBuffer = ''; 
-        }
-        return;
+// 1. Firebase Config
+const firebaseConfig = {
+  apiKey: "AIzaSyAMhVex_zXgjR5FhpX_OlnxJBsyQ5wswEg",
+  authDomain: "cics-qr-generator-ed5bd.firebaseapp.com",
+  projectId: "cics-qr-generator-ed5bd",
+  storageBucket: "cics-qr-generator-ed5bd.firebasestorage.app",
+  messagingSenderId: "972248403675",
+  appId: "1:972248403675:web:c1d14b18673dc6095786fe"
+};
+
+// 2. Initialize Firebase
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+const db = firebase.firestore();
+
+const nfcSecurityOverlay = document.getElementById('nfcSecurityOverlay');
+const nfcPasswordInput = document.getElementById('nfcPasswordInput');
+const nfcUnlockBtn = document.getElementById('nfcUnlockBtn');
+const nfcSecurityError = document.getElementById('nfcSecurityError');
+
+// Check if the user already unlocked it during this browser session
+if (sessionStorage.getItem('nfcUnlocked') === 'true') {
+  if (nfcSecurityOverlay) nfcSecurityOverlay.style.display = 'none';
+}
+
+// Helper to show errors cleanly
+const showSecurityError = (msg) => {
+  nfcSecurityError.textContent = msg;
+  nfcPasswordInput.value = '';
+  nfcPasswordInput.focus();
+  setTimeout(() => nfcSecurityError.textContent = "", 3000);
+};
+
+// 3. Connect to database to verify password
+const attemptUnlock = async () => {
+  const enteredPassword = nfcPasswordInput.value.trim();
+  if (!enteredPassword) return showSecurityError("Please enter a password.");
+
+  // Change UI to show it's loading
+  nfcUnlockBtn.disabled = true;
+  nfcUnlockBtn.textContent = "Checking...";
+
+  try {
+    // Fetch the password from Firestore
+    const doc = await db.collection("admin_settings").doc("security").get();
+
+    if (doc.exists) {
+      const actualPassword = doc.data().nfc_password;
+
+      if (enteredPassword === actualPassword) {
+        // Correct password: Save session and fade out overlay
+        sessionStorage.setItem('nfcUnlocked', 'true');
+        nfcSecurityOverlay.style.opacity = '0';
+        setTimeout(() => nfcSecurityOverlay.style.display = 'none', 400);
+      } else {
+        showSecurityError("Incorrect password.");
       }
-
-      if (e.key.length === 1) {
-        scanBuffer += e.key;
-      }
-    });
+    } else {
+      showSecurityError("Database setup error: Document missing.");
+    }
+  } catch (error) {
+    console.error("Firebase Error:", error);
+    showSecurityError("Connection error. Check your internet.");
+  } finally {
+    // Reset the button state
+    nfcUnlockBtn.disabled = false;
+    nfcUnlockBtn.textContent = "Unlock";
   }
+};
+
+if (nfcUnlockBtn) {
+  nfcUnlockBtn.addEventListener('click', attemptUnlock);
+  nfcPasswordInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') attemptUnlock();
+  });
+}
 
 // =======================================================================
 // ---  3. PWA SERVICE WORKER (Runs on all pages)  ---
