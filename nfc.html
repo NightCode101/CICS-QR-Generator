@@ -77,20 +77,6 @@
         </div>
     </div>
 
-    <div id="nfcSecurityOverlay" class="security-overlay">
-        <div class="security-card">
-            <h2 style="margin-top: 0; color: var(--text-main);">🔒 Admin Access</h2>
-            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px;">Please enter the admin
-                password to access the NFC Tag Manager.</p>
-
-            <input type="password" id="nfcPasswordInput" placeholder="Enter Password"
-                style="text-transform: none; text-align: center;" />
-            <button id="nfcUnlockBtn" style="width: 100%; margin-top: 10px;">Unlock</button>
-
-            <p id="nfcSecurityError" class="security-error"></p>
-        </div>
-    </div>
-
     <div class="ad-card-wrapper">
         <p class="ad-label">ADVERTISEMENT</p>
 
@@ -131,6 +117,20 @@
 
             <button id="gotItBtn" class="alert-ok-button" style="width: 100%; margin-top: 32px;">Got It!</button>
         </div>
+
+        <div id="nfcSecurityOverlay" class="security-overlay">
+        <div class="security-card">
+            <h2 style="margin-top: 0; color: var(--text-main);">🔒 Admin Access</h2>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px;">Please enter the admin
+                password to access the NFC Tag Manager.</p>
+
+            <input type="password" id="nfcPasswordInput" placeholder="Enter Password"
+                style="text-transform: none; text-align: center;" />
+            <button id="nfcUnlockBtn" style="width: 100%; margin-top: 10px;">Unlock</button>
+
+            <p id="nfcSecurityError" class="security-error"></p>
+        </div>
+    </div>
     </div>
 
     <footer class="footer">
