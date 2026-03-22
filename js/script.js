@@ -792,10 +792,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     checkNFCSupport();
 
+    // UPDATED: Now uses innerHTML so we can format the text nicely with line breaks and colors
     function updateNfcUI(status, icon, data = "", isScanning = false) {
       nfcStatusText.textContent = status;
       nfcStatusIcon.textContent = icon;
-      if (data) nfcResultData.textContent = data;
+      if (data) nfcResultData.innerHTML = data; 
       
       if (isScanning) {
         nfcStatusIcon.classList.add('scanning-pulse');
@@ -812,14 +813,22 @@ document.addEventListener('DOMContentLoaded', () => {
       const name = document.getElementById('nfcNameInput').value.trim();
       
       if (!id || !name) return showAlert("Please enter both ID and Name to write to the tag.");
+      
+      // The actual raw data saved to the NFC chip
       const dataString = `${id}|${name}`;
+      
+      // The beautifully formatted UI display
+      const displayString = `STUDENT ID: <span style="color: var(--primary-color);">${id}</span><br>NAME: <span style="color: var(--primary-color);">${name}</span>`;
 
       try {
         const ndef = new NDEFReader();
         updateNfcUI("Ready to Write", "📲", "Tap tag to back of device...", true);
         
+        // Write the RAW format
         await ndef.write(dataString);
-        updateNfcUI("Success!", "✅", `Written: ${dataString}`);
+        
+        // Display the FORMATTED version
+        updateNfcUI("Success!", "✅", displayString);
         showToast("Data written to NFC tag successfully!");
       } catch (error) {
         updateNfcUI("Write Failed", "❌", error.message);
@@ -846,15 +855,28 @@ document.addEventListener('DOMContentLoaded', () => {
           const decoder = new TextDecoder();
           for (const record of event.message.records) {
             if (record.recordType === "text") {
-              const textData = decoder.decode(record.data);
-              updateNfcUI("Tag Read!", "🏷️", textData);
+              const textData = decoder.decode(record.data); // This is the raw "ID|Name"
               
-              // Try to split and populate form if it's our standard format
+              let displayData = textData;
+
+              // Check if it matches our format and split it for display
               if(textData.includes('|')) {
                   const parts = textData.split('|');
-                  document.getElementById('nfcIdInput').value = parts[0];
-                  document.getElementById('nfcNameInput').value = parts[1];
+                  const scannedId = parts[0].trim();
+                  const scannedName = parts[1].trim();
+                  
+                  // Populate the form fields
+                  document.getElementById('nfcIdInput').value = scannedId;
+                  document.getElementById('nfcNameInput').value = scannedName;
+                  
+                  // Format the visual display
+                  displayData = `STUDENT ID: <span style="color: var(--primary-color);">${scannedId}</span><br>NAME: <span style="color: var(--primary-color);">${scannedName}</span>`;
+              } else {
+                  // Fallback if the tag has normal text but not our custom format
+                  displayData = `RAW DATA:<br><span style="color: var(--primary-color);">${textData}</span>`;
               }
+
+              updateNfcUI("Tag Read!", "🏷️", displayData);
               showToast("Tag successfully read!");
               return; // Stop after first text record
             }
@@ -868,19 +890,26 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // --- EXTERNAL READER FALLBACK LOGIC ---
-    // External USB RFID readers act as keyboards and press "Enter" when done sending the UID.
     if (externalReaderInput) {
       externalReaderInput.addEventListener('keydown', function(e) {
         if (e.key === 'Enter') {
           e.preventDefault();
           const scannedData = this.value.trim();
+          
           if (scannedData) {
-            updateNfcUI("External Tag Read", "🔌", `Raw Data: ${scannedData}`);
+            let displayData = scannedData;
+
+            // If the external reader somehow reads our custom written data
+            if(scannedData.includes('|')) {
+                const parts = scannedData.split('|');
+                displayData = `STUDENT ID: <span style="color: var(--primary-color);">${parts[0].trim()}</span><br>NAME: <span style="color: var(--primary-color);">${parts[1].trim()}</span>`;
+            } else {
+                // Usually external readers just read the UID (hardware serial number)
+                displayData = `RAW ID / SERIAL:<br><span style="color: var(--primary-color);">${scannedData}</span>`;
+            }
+
+            updateNfcUI("External Tag Read", "🔌", displayData);
             showToast("Tag scanned via external reader!");
-            
-            // Note: Most basic USB readers only read the tag's Serial Number (UID), not the custom written data.
-            // If they are programmed to read NDEF, it will output here.
-            
             this.value = ''; // Clear for next scan
           }
         }
