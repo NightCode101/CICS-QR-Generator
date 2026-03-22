@@ -47,8 +47,12 @@
 
       <div id="externalReaderSection" class="form-card" style="display: none; margin-top: 20px;">
         <h4 style="color: #d63031; margin-top: 0;">Native NFC Not Supported</h4>
-        <p style="font-size: 0.9rem; color: var(--text-muted);">Please connect an external USB RFID/NFC reader. Click the box below and tap your card to scan.</p>
-        <input type="text" id="externalReaderInput" placeholder="Click here & tap card..." style="border-color: #0984e3;" />
+        <p style="font-size: 0.95rem; color: var(--text-main); font-weight: 500;">
+          🔌 External Reader Mode Active
+        </p>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0;">
+          No need to click anything. Just tap your card on the USB reader at any time to scan.
+        </p>
       </div>
     </div>
 
@@ -66,7 +70,7 @@
   <div id="customAlert" class="alert-overlay">
     <div class="alert-content">
       <p id="alertMessage"></p>
-      <button class="alert-ok-button">OK</button>
+      <button class="alert-ok-button" onclick="document.getElementById('customAlert').classList.remove('show')">OK</button>
     </div>
   </div>
   <div id="toast" class="toast">Ready!</div>

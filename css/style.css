@@ -1546,5 +1546,5 @@ body.dark-mode #confirmName {
 body.dark-mode .nfc-data-display {
   background: #1a1a1a;
   border-color: #555;
-  color: var(--primary-color);
+  color: #ffffff;
 }
