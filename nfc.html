@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#ffa500" />
+
+  <title>CICS NFC Tool - Read & Write Tags</title>
+  <meta name="description" content="Read and write NFC tags for CICS CSU Piat." />
+
+  <link rel="icon" href="favicon.png" sizes="48x48" type="image/png">
+  <link rel="apple-touch-icon" href="favicon.png">
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preload" href="./assets/fonts/impact.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="manifest" href="manifest.json" />
+</head>
+
+<body class="page-single page-nfc">
+  <nav class="navbar rounded">
+    <div class="nav-links">
+      <a href="index.html">Single QR</a>
+      <a href="bulk.html">Bulk QR</a>
+      <a href="nfc.html" class="active">NFC Tool</a>
+    </div>
+    <button id="themeToggle" class="theme-toggle">🌙</button>
+  </nav>
+
+  <div class="app-layout">
+    <div class="main-column">
+      <div class="form-card">
+        <h1>CICS CSU Piat</h1>
+        <h3>NFC Tag Writer & Reader</h3>
+        <div class="form-wrapper">
+          <label for="nfcIdInput">Student ID Number</label>
+          <input type="text" id="nfcIdInput" placeholder="Enter ID to write" oninput="this.value = this.value.toUpperCase()" />
+
+          <label for="nfcNameInput" style="margin-top: 10px;">Name (Last, First M.I.)</label>
+          <input type="text" id="nfcNameInput" placeholder="Enter Name to write" oninput="this.value = this.value.toUpperCase()" />
+
+          <div class="button-group" style="margin-top: 20px;">
+            <button onclick="writeNFC()">Write to Tag</button>
+            <button onclick="readNFC()" style="background: linear-gradient(135deg, #0984e3 0%, #74b9ff 100%);">Scan Native NFC</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="externalReaderSection" class="form-card" style="display: none; margin-top: 20px;">
+        <h4 style="color: #d63031; margin-top: 0;">Native NFC Not Supported</h4>
+        <p style="font-size: 0.9rem; color: var(--text-muted);">Please connect an external USB RFID/NFC reader. Click the box below and tap your card to scan.</p>
+        <input type="text" id="externalReaderInput" placeholder="Click here & tap card..." style="border-color: #0984e3;" />
+      </div>
+    </div>
+
+    <div class="sidebar-column">
+      <div class="canvas-wrapper">
+        <div class="qr-display nfc-display">
+          <div id="nfcStatusIcon" class="nfc-icon">📱</div>
+          <h2 id="nfcStatusText">Ready</h2>
+          <p id="nfcResultData" class="nfc-data-display">Awaiting action...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="customAlert" class="alert-overlay">
+    <div class="alert-content">
+      <p id="alertMessage"></p>
+      <button class="alert-ok-button">OK</button>
+    </div>
+  </div>
+  <div id="toast" class="toast">Ready!</div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

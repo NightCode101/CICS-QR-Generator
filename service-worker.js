@@ -1,9 +1,10 @@
-const CACHE_NAME = 'qr-cache-v2'; // Incremented cache version to force update
+const CACHE_NAME = 'qr-cache-v3'; // Incremented cache version to force update
 const urlsToCache = [
   './',
   './index.html',
   './bulk.html',
   './privacy.html',
+  './nfc.html',
   './manifest.json',
   
   // Cache the new combined CSS file

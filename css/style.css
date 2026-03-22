@@ -1501,3 +1501,50 @@ body.dark-mode #confirmID,
 body.dark-mode #confirmName {
   color: #ffffff !important;
 }
+
+/* =====================================
+--- NFC PAGE SPECIFICS ---
+===================================== */
+.nfc-display {
+  flex-direction: column;
+  padding: 40px 20px !important;
+  text-align: center;
+  min-height: 350px;
+}
+
+.nfc-icon {
+  font-size: 80px;
+  margin-bottom: 20px;
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.nfc-data-display {
+  font-family: 'Courier New', Courier, monospace;
+  background: var(--input-bg);
+  padding: 15px;
+  border-radius: 12px;
+  word-break: break-all;
+  margin-top: 15px;
+  border: 1px dashed var(--text-muted);
+  width: 90%;
+  font-weight: bold;
+}
+
+/* Pulsing animation for scanning */
+@keyframes pulseScan {
+  0% { transform: scale(1); opacity: 1; text-shadow: 0 0 0 rgba(9, 132, 227, 0.4); }
+  50% { transform: scale(1.1); opacity: 0.8; text-shadow: 0 0 20px rgba(9, 132, 227, 0.8); }
+  100% { transform: scale(1); opacity: 1; text-shadow: 0 0 0 rgba(9, 132, 227, 0.4); }
+}
+
+.scanning-pulse {
+  animation: pulseScan 1.5s infinite;
+}
+
+/* Dark mode adjustments for NFC */
+body.dark-mode .nfc-data-display {
+  background: #1a1a1a;
+  border-color: #555;
+  color: var(--primary-color);
+}

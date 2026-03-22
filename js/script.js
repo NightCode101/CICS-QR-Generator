@@ -771,6 +771,123 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+// --- NFC PAGE LOGIC (nfc.html) ---
+  if (document.body.classList.contains('page-nfc')) {
+    
+    const nfcStatusIcon = document.getElementById('nfcStatusIcon');
+    const nfcStatusText = document.getElementById('nfcStatusText');
+    const nfcResultData = document.getElementById('nfcResultData');
+    const externalReaderSection = document.getElementById('externalReaderSection');
+    const externalReaderInput = document.getElementById('externalReaderInput');
+
+    // Check if device supports native Web NFC
+    const checkNFCSupport = () => {
+      if (!('NDEFReader' in window)) {
+        externalReaderSection.style.display = 'block';
+        showToast("Native Web NFC not supported. Use external reader.");
+        return false;
+      }
+      return true;
+    };
+
+    checkNFCSupport();
+
+    function updateNfcUI(status, icon, data = "", isScanning = false) {
+      nfcStatusText.textContent = status;
+      nfcStatusIcon.textContent = icon;
+      if (data) nfcResultData.textContent = data;
+      
+      if (isScanning) {
+        nfcStatusIcon.classList.add('scanning-pulse');
+      } else {
+        nfcStatusIcon.classList.remove('scanning-pulse');
+      }
+    }
+
+    // --- WRITE NATIVE NFC ---
+    window.writeNFC = async function() {
+      if (!checkNFCSupport()) return showAlert("Please use the external reader input below.");
+      
+      const id = document.getElementById('nfcIdInput').value.trim();
+      const name = document.getElementById('nfcNameInput').value.trim();
+      
+      if (!id || !name) return showAlert("Please enter both ID and Name to write to the tag.");
+      const dataString = `${id}|${name}`;
+
+      try {
+        const ndef = new NDEFReader();
+        updateNfcUI("Ready to Write", "📲", "Tap tag to back of device...", true);
+        
+        await ndef.write(dataString);
+        updateNfcUI("Success!", "✅", `Written: ${dataString}`);
+        showToast("Data written to NFC tag successfully!");
+      } catch (error) {
+        updateNfcUI("Write Failed", "❌", error.message);
+        console.error("NFC Write Error: ", error);
+        showAlert(`Write failed: ${error.message}. Ensure NFC is enabled and tap the tag clearly.`);
+      }
+    };
+
+    // --- READ NATIVE NFC ---
+    window.readNFC = async function() {
+      if (!checkNFCSupport()) return showAlert("Please use the external reader input below.");
+      
+      try {
+        const ndef = new NDEFReader();
+        updateNfcUI("Scanning...", "📡", "Hold tag near device...", true);
+        
+        await ndef.scan();
+        
+        ndef.onreadingerror = () => {
+          updateNfcUI("Read Error", "⚠️", "Cannot read tag data.");
+        };
+
+        ndef.onreading = event => {
+          const decoder = new TextDecoder();
+          for (const record of event.message.records) {
+            if (record.recordType === "text") {
+              const textData = decoder.decode(record.data);
+              updateNfcUI("Tag Read!", "🏷️", textData);
+              
+              // Try to split and populate form if it's our standard format
+              if(textData.includes('|')) {
+                  const parts = textData.split('|');
+                  document.getElementById('nfcIdInput').value = parts[0];
+                  document.getElementById('nfcNameInput').value = parts[1];
+              }
+              showToast("Tag successfully read!");
+              return; // Stop after first text record
+            }
+          }
+          updateNfcUI("Empty/Unknown Format", "❓", "No text data found on tag.");
+        };
+      } catch (error) {
+        updateNfcUI("Scan Failed", "❌", error.message);
+        showAlert(`Scan failed: ${error.message}.`);
+      }
+    };
+
+    // --- EXTERNAL READER FALLBACK LOGIC ---
+    // External USB RFID readers act as keyboards and press "Enter" when done sending the UID.
+    if (externalReaderInput) {
+      externalReaderInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          const scannedData = this.value.trim();
+          if (scannedData) {
+            updateNfcUI("External Tag Read", "🔌", `Raw Data: ${scannedData}`);
+            showToast("Tag scanned via external reader!");
+            
+            // Note: Most basic USB readers only read the tag's Serial Number (UID), not the custom written data.
+            // If they are programmed to read NDEF, it will output here.
+            
+            this.value = ''; // Clear for next scan
+          }
+        }
+      });
+    }
+  }
+
 // =======================================================================
 // ---  3. PWA SERVICE WORKER (Runs on all pages)  ---
 // =======================================================================
