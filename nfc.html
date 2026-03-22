@@ -20,8 +20,10 @@
     <div id="nfcSecurityOverlay" class="security-overlay">
         <div class="security-card">
             <h2 style="margin-top: 0; color: var(--text-main);">🔒 Admin Access</h2>
-            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px;">Please enter the admin password to access the NFC Tag Manager.</p>
-            <input type="password" id="nfcPasswordInput" placeholder="Enter Password" style="text-transform: none; text-align: center;" />
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px;">Please enter the admin
+                password to access the NFC Tag Manager.</p>
+            <input type="password" id="nfcPasswordInput" placeholder="Enter Password"
+                style="text-transform: none; text-align: center;" />
             <button id="nfcUnlockBtn" style="width: 100%; margin-top: 10px;">Unlock</button>
             <p id="nfcSecurityError" class="security-error"></p>
         </div>
@@ -42,28 +44,35 @@
                 <h1>CICS CSU Piat</h1>
                 <h3>NFC Tag Writer & Reader</h3>
 
-                <button id="nfcHelpBtn" style="background: transparent; border: 1px solid var(--primary-color); color: var(--primary-color); padding: 6px 16px; border-radius: 50px; font-size: 0.85rem; margin-bottom: 20px; box-shadow: none; cursor: pointer;">
+                <button id="nfcHelpBtn"
+                    style="background: transparent; border: 1px solid var(--primary-color); color: var(--primary-color); padding: 6px 16px; border-radius: 50px; font-size: 0.85rem; margin-bottom: 20px; box-shadow: none; cursor: pointer;">
                     ℹ️ How it Works
                 </button>
 
                 <div class="form-wrapper">
                     <label for="nfcIdInput">Student ID Number</label>
-                    <input type="text" id="nfcIdInput" placeholder="Enter ID to write" oninput="this.value = this.value.toUpperCase()" />
+                    <input type="text" id="nfcIdInput" placeholder="Enter ID to write"
+                        oninput="this.value = this.value.toUpperCase()" />
 
                     <label for="nfcNameInput" style="margin-top: 10px;">Name (Last, First M.I.)</label>
-                    <input type="text" id="nfcNameInput" placeholder="Enter Name to write" oninput="this.value = this.value.toUpperCase()" />
+                    <input type="text" id="nfcNameInput" placeholder="Enter Name to write"
+                        oninput="this.value = this.value.toUpperCase()" />
 
                     <div class="button-group" style="margin-top: 20px;">
                         <button onclick="writeNFC()">Write to Tag</button>
-                        <button onclick="readNFC()" style="background: linear-gradient(135deg, #0984e3 0%, #74b9ff 100%);">Scan Native NFC</button>
+                        <button onclick="readNFC()"
+                            style="background: linear-gradient(135deg, #0984e3 0%, #74b9ff 100%);">Scan Native
+                            NFC</button>
                     </div>
                 </div>
             </div>
 
             <div id="externalReaderSection" class="form-card" style="display: none; margin-top: 20px;">
                 <h4 style="color: #d63031; margin-top: 0;">Native NFC Not Supported</h4>
-                <p style="font-size: 0.95rem; color: var(--text-main); font-weight: 500;">🔌 External Reader Mode Active</p>
-                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0;">No need to click anything. Just tap your card on the USB reader at any time to scan.</p>
+                <p style="font-size: 0.95rem; color: var(--text-main); font-weight: 500;">🔌 External Reader Mode Active
+                </p>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0;">No need to click anything.
+                    Just tap your card on the USB reader at any time to scan.</p>
             </div>
         </div>
 
@@ -81,12 +90,15 @@
     <div id="nfcInstructionsModal" class="modal-overlay">
         <div class="modal-content" style="max-width: 550px; text-align: left; padding: 40px 32px;">
             <span class="modal-close" id="closeNfcHelp">&times;</span>
-            <h2 style="color: var(--primary-hover); margin-top: 0; margin-bottom: 24px; text-align: center;">How to Use NFC</h2>
+            <h2 style="color: var(--primary-hover); margin-top: 0; margin-bottom: 24px; text-align: center;">How to Use
+                NFC</h2>
             <div class="instruction-block">
                 <h4 style="color: var(--text-main); margin-bottom: 8px;">📱 Native Mobile NFC (Android Only)</h4>
-                <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 0;">Requires Google Chrome and an NFC-enabled Android device.</p>
+                <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 0;">Requires Google Chrome and an
+                    NFC-enabled Android device.</p>
                 <ul style="font-size: 0.95rem; color: var(--text-main); padding-left: 20px; margin-bottom: 24px;">
-                    <li><strong>To Write:</strong> Enter ID and Name, click "Write to Tag", and hold card to the back of your phone.</li>
+                    <li><strong>To Write:</strong> Enter ID and Name, click "Write to Tag", and hold card to the back of
+                        your phone.</li>
                     <li><strong>To Read:</strong> Click "Scan Native NFC" and hold card to the back of your phone.</li>
                 </ul>
             </div>
@@ -104,13 +116,15 @@
     <footer class="footer">
         <p>College of Information and Computing Sciences</p>
         <p>© 2026 CICS QR Generator · Jeylo Baoit</p>
-        <p>Contact: <a href="mailto:jeylodigitals@gmail.com">Email</a> | <a href="privacy.html">Privacy Policy & Terms</a></p>
+        <p>Contact: <a href="mailto:jeylodigitals@gmail.com">Email</a> | <a href="privacy.html">Privacy Policy &
+                Terms</a></p>
     </footer>
 
     <div id="customAlert" class="alert-overlay">
         <div class="alert-content">
             <p id="alertMessage"></p>
-            <button class="alert-ok-button" onclick="document.getElementById('customAlert').classList.remove('show')">OK</button>
+            <button class="alert-ok-button"
+                onclick="document.getElementById('customAlert').classList.remove('show')">OK</button>
         </div>
     </div>
     <div id="toast" class="toast">Ready!</div>

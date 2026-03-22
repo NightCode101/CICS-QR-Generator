@@ -1,4 +1,4 @@
-const CACHE_NAME = 'qr-cache-v3'; // Incremented cache version to force update
+const CACHE_NAME = 'qr-cache-v4'; // Incremented cache version to force update
 const urlsToCache = [
   './',
   './index.html',
