@@ -1,3 +1,32 @@
+/*
+  ========================================
+  CICS QR Code Generator - Main Stylesheet
+  ========================================
+
+  Color Scheme:
+  - Primary Color: #e59e02 (Orange)
+  - Background: #f8f5f2 (Cream/Off-white)
+  - Text: #2d3436 (Dark gray)
+
+  Design Philosophy:
+  - Modern, clean, and professional
+  - No glassmorphism or dated effects
+  - Responsive and accessible
+  - Google Ads compliant
+
+  Structure:
+  1. Shared variables & reset
+  2. Navbar styles
+  3. Layout styles
+  4. Button & card styles
+  5. Page-specific styles
+  6. Dark mode support
+  7. Animations
+
+  For documentation on updates, see MODERNIZATION_GUIDE.md
+  ========================================
+*/
+
 /* --- SHARED VARIABLES & RESET --- */
 :root {
   --primary-color: #e59e02;
@@ -42,31 +71,27 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* --- NAVBAR (Glassmorphism) --- */
+/* --- NAVBAR (Modern Solid Design) --- */
 .navbar {
   border-radius: var(--radius-md);
   margin-top: 10px;
   margin-bottom: 24px;
   max-width: 800px;
   width: 100%;
-  background: rgba(229, 158, 2, 0.85);
-  /* Semi-transparent */
-  backdrop-filter: blur(12px);
-  /* Glass effect */
-  -webkit-backdrop-filter: blur(12px);
-  padding: 14px 24px;
+  background: linear-gradient(135deg, #e59e02 0%, #d89401 100%);
+  padding: 12px 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 24px;
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 4px 12px rgba(229, 158, 2, 0.2);
   opacity: 0;
   transform: translateY(-20px);
   animation: slideDown 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
   z-index: 100;
   position: sticky;
   top: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: none;
 }
 
 .navbar .nav-links {
@@ -79,20 +104,21 @@ body {
   color: white;
   font-weight: 600;
   text-decoration: none;
-  font-size: 1rem;
+  font-size: 0.95rem;
   padding: 8px 16px;
-  border-radius: 50px;
+  border-radius: 8px;
   transition: var(--transition-smooth);
   letter-spacing: 0.5px;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .navbar a.active {
   background-color: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .navbar a:hover {
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: rgba(255, 255, 255, 0.2);
   text-decoration: none;
   transform: translateY(-1px);
 }
@@ -1218,39 +1244,41 @@ body.dark-mode #modalQrName {
 }
 
 
-/* --- AD CARD --- */
-.ad-card-wrapper {
+/* --- AD PLACEHOLDER SECTION (Google Ads Ready) --- */
+.ad-placeholder {
   background: var(--card-bg);
-  padding: 24px;
-  border-radius: 20px;
+  padding: 20px;
+  border-radius: 12px;
   box-shadow: var(--shadow-sm);
   width: 100%;
   margin-top: 30px;
   transition: background-color 0.3s ease;
-  opacity: 0;
-  transform: translateY(20px);
-  animation: slideUp 0.6s 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
   max-width: 800px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  text-align: center;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.ad-card-wrapper .ad-label {
+.ad-placeholder .ad-label {
   text-align: center;
   font-size: 0.75rem;
   color: var(--text-muted);
-  margin-top: 0;
-  margin-bottom: 12px;
+  margin: 0;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
-body.dark-mode .ad-card-wrapper {
+body.dark-mode .ad-placeholder {
   background-color: #1e1e1e;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   border: 1px solid #333;
 }
 
-body.dark-mode .ad-card-wrapper .ad-label {
+body.dark-mode .ad-placeholder .ad-label {
   color: #777;
 }
 

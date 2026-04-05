@@ -2,6 +2,24 @@
 <html lang="en">
 
 <head>
+    <!--
+        CICS QR Code Generator - NFC Tool
+        =================================
+        Purpose: Read and write NFC tags for CICS CSU Piat
+        Security: Password-protected admin access
+
+        Requirements:
+        - Chrome browser with NFC support (Android)
+        - Or: USB NFC reader device
+        - Password protection enabled
+
+        Color Theme: Orange (#e59e02) + Cream (#f8f5f2)
+
+        For modifications, see:
+        - CSS Documentation: css/style.css (header)
+        - Modernization Guide: MODERNIZATION_GUIDE.md
+    -->
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#ffa500" />
@@ -128,6 +146,18 @@
         </div>
     </div>
     <div id="toast" class="toast">Ready!</div>
+
+    <!-- Cookie Consent Banner (Google Ads Compliant)
+         Purpose: Obtain user consent for Google Analytics & optional ad personalization
+         User Choice: Accept or Dismiss (both are valid) -->
+    <div id="cookieConsent"
+      style="display: none; position: fixed; bottom: 20px; left: 20px; right: 20px; background: #fff3e0; color: #333; padding: 15px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); max-width: 800px; margin: 0 auto; z-index: 999;">
+      <p style="margin: 0; font-size: 0.9rem;">We use browser storage (localStorage) for theme preferences and QR history. Google Analytics helps us understand usage. <a href="privacy.html" style="color:#e59e02; font-weight: 600;">Learn more →</a></p>
+      <div style="margin-top: 10px; display: flex; gap: 8px; justify-content: flex-end;">
+        <button onclick="dismissCookies()" style="background: #ccc; color: #333; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: normal;">Dismiss</button>
+        <button onclick="acceptCookies()" style="background: #e59e02; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: 600;">Accept</button>
+      </div>
+    </div>
 
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>

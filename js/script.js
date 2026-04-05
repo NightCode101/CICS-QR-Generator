@@ -1,4 +1,19 @@
 // =======================================================================
+// CICS QR Code Generator - Main JavaScript
+// =======================================================================
+// Purpose: Handle QR generation, theme switching, and user interactions
+// for single QR, bulk QR, and NFC pages
+//
+// Key Functions:
+// - generateQR() / generateBulkQRs(): Create QR codes
+// - downloadQR() / downloadSelectedZipped(): Export functions
+// - applyTheme(): Light/dark mode switching
+// - showToast(): Display notifications
+//
+// For documentation, see MODERNIZATION_GUIDE.md
+// =======================================================================
+
+// =======================================================================
 // ---  1. SHARED FUNCTIONS & VARIABLES (Used by all pages)  ---
 // =======================================================================
 
@@ -7,7 +22,10 @@ templateImage.src = './assets/template-background.png';
 
 /**
  * Displays a temporary "toast" message at the bottom of the screen.
- * @param {string} message The message to display.
+ * Automatically dismisses after 2.5 seconds.
+ *
+ * @param {string} message The message to display to the user
+ * @example showToast("QR Code generated successfully!")
  */
 function showToast(message) {
   const toast = document.getElementById('toast');
@@ -18,9 +36,12 @@ function showToast(message) {
 }
 
 /**
- * Calculates the appropriate font size for the canvas based on text length.
- * @param {string} name The text to measure.
- * @returns {number} The calculated font size.
+ * Calculates an appropriate font size for canvas text based on input length.
+ * Prevents text overflow on the QR code template.
+ *
+ * @param {string} name The text that will be rendered on the QR code
+ * @returns {number} Calculated font size in pixels
+ * @example const size = getFontSize("SMITH, JOHN A"); // Returns 110
  */
 function getFontSize(name) {
   const baseSize = 140; // Increased to fill the width of the blue lines
@@ -31,7 +52,8 @@ function getFontSize(name) {
 }
 
 /**
- * Hides the cookie consent banner and saves the user's choice as ACCEPTED.
+ * Stores user's cookie consent choice and hides the banner.
+ * User interaction: Accepted (allows tracking cookies)
  */
 function acceptCookies() {
   localStorage.setItem("cookieConsent", "accepted");
@@ -40,7 +62,8 @@ function acceptCookies() {
 }
 
 /**
- * Hides the cookie consent banner and saves the user's choice as DISMISSED (Opt-out).
+ * Stores user's cookie consent choice and hides the banner.
+ * User interaction: Dismissed (opt-out, site still functions)
  */
 function dismissCookies() {
   localStorage.setItem("cookieConsent", "dismissed");
@@ -345,7 +368,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /**
-     * Intercepts click, validates, and shows confirmation modal.
+     * Single QR Code Generator (index.html)
+     * Validates user input (ID and Name), shows confirmation modal, then generates QR
+     *
+     * User Flow:
+     * 1. User enters Student ID and Name
+     * 2. Clicks "Generate QR" button
+     * 3. Confirmation modal appears
+     * 4. User confirms
+     * 5. QR code is generated on canvas
+     * 6. User can download or add to history
+     *
+     * @window Exported as window.generateQR()
+     * @triggers openConfirmModal for user confirmation
+     * @example onClick="generateQR()"
      */
     window.generateQR = function () {
       const id = document.getElementById('idInput').value.trim();
@@ -361,7 +397,15 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     /**
-     * Downloads the generated QR code as a PNG file.
+     * Download Generated QR Code (index.html)
+     * Exports the QR code canvas as a PNG file with formatted timestamp
+     *
+     * File naming: CICS_QR_[timestamp].png
+     * Resolution: 2160x2160 pixels (high quality)
+     *
+     * @window Exported as window.downloadQR()
+     * @requires Canvas must have an active QR code
+     * @example onClick="downloadQR()"
      */
     window.downloadQR = function () {
       let name = document.getElementById('nameInput').value.trim();
@@ -714,7 +758,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /**
-     * Intercepts click, validates, and starts generation directly.
+     * Bulk QR Code Generator (bulk.html)
+     * Parses CSV-like data (ID|Name format, one per line) and generates multiple QR codes
+     *
+     * Input Format:
+     * ID123|LAST, FIRST M.I.
+     * ID456|LAST, FIRST M.I.
+     * ID789|LAST, FIRST M.I.
+     *
+     * User Flow:
+     * 1. User pastes data into textarea (ID|Name pairs)
+     * 2. Clicks "Generate All"
+     * 3. QR codes appear as selectable items
+     * 4. User can select individual codes or "Select All"
+     * 5. Clicks "Download Selected as ZIP" to export
+     *
+     * Features:
+     * - Validates each line format
+     * - Shows generation progress
+     * - Allows selective download
+     * - Exports as ZIP file
+     *
+     * @window Exported as window.generateBulkQRs()
+     * @example onClick="generateBulkQRs()"
      */
     window.generateBulkQRs = function () {
       const input = document.getElementById('bulkInput').value.trim();
