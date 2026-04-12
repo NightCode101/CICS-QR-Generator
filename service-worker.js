@@ -1,15 +1,16 @@
-const CACHE_NAME = 'qr-cache-v4'; // Incremented cache version to force update
+const CACHE_NAME = 'qr-cache-v5'; // Incremented cache version for AdSense integration
 const urlsToCache = [
   './',
   './index.html',
   './bulk.html',
   './privacy.html',
   './nfc.html',
+  './404.html',
   './manifest.json',
-  
+
   // Cache the new combined CSS file
   './css/style.css',
-  
+
   // Cache the new combined JS file
   './js/script.js',
 
@@ -22,7 +23,12 @@ const urlsToCache = [
 
   // Cache external libraries
   'https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js',
-  'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js'
+  'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js',
+
+  // Cache Google services (AdSense, Analytics, Funding Choices)
+  'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js',
+  'https://www.googletagmanager.com/gtag/js',
+  'https://fundingchoicesmessages.google.com/i/pub-6600375635602117'
 ];
 
 // Clean up old caches on activate

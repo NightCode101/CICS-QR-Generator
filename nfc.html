@@ -20,18 +20,62 @@
         - Modernization Guide: MODERNIZATION_GUIDE.md
     -->
 
+    <!-- Google tag (gtag.js) - Analytics only -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FEJYW593XB"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-FEJYW593XB');
+    </script>
+
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6600375635602117"
+        crossorigin="anonymous"></script>
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#ffa500" />
 
     <title>CICS NFC Tool - Read & Write Tags</title>
-    <meta name="description" content="Read and write NFC tags for CICS CSU Piat." />
+    <meta name="description" content="Read and write NFC tags for CICS CSU Piat. Android-compatible NFC tool with admin password protection." />
+    <meta name="keywords" content="NFC Tag, NFC Reader, NFC Writer, CICS, CSU Piat, Student ID">
+    <meta name="author" content="Jeylo Baoit">
+
+    <meta property="og:title" content="NFC Tag Manager - CICS" />
+    <meta property="og:description" content="Read and write NFC tags for CICS CSU Piat students." />
+    <meta property="og:image" content="https://cics-qrgenerator.site/assets/og_image.png" />
+    <meta property="og:url" content="https://cics-qrgenerator.site/nfc.html" />
+    <meta property="og:type" content="website" />
 
     <link rel="icon" href="favicon.png" sizes="48x48" type="image/png">
+    <link rel="canonical" href="https://cics-qrgenerator.site/nfc.html" />
     <link rel="apple-touch-icon" href="favicon.png">
     <link rel="stylesheet" href="css/style.css" />
     <link rel="preload" href="./assets/fonts/impact.ttf" as="font" type="font/ttf" crossorigin="anonymous">
     <link rel="manifest" href="manifest.json" />
+
+    <!-- Google AdSense Ad Blocking Recovery & Funding Choices -->
+    <script async src="https://fundingchoicesmessages.google.com/i/pub-6600375635602117?ers=1"></script>
+    <script>
+        (function() {
+            function signalGooglefcPresent() {
+                if (!window.frames['googlefcPresent']) {
+                    if (document.body) {
+                        const iframe = document.createElement('iframe');
+                        iframe.style = 'width: 0; height: 0; border: none; z-index: -1000; left: -1000px; top: -1000px;';
+                        iframe.style.display = 'none';
+                        iframe.name = 'googlefcPresent';
+                        document.body.appendChild(iframe);
+                    } else {
+                        setTimeout(signalGooglefcPresent, 0);
+                    }
+                }
+            }
+            signalGooglefcPresent();
+        })();
+    </script>
 </head>
 
 <body class="page-single page-nfc">
