@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const alertModal = document.getElementById('customAlert');
   const alertMessageEl = document.getElementById('alertMessage');
-  const alertOkBtn = document.querySelector('.alert-ok-button'); // Fixed selector if class is used
+  const alertOkBtn = document.getElementById('alertOkBtn');
 
   const confirmModal = document.getElementById('confirmModal');
   const confirmIDEl = document.getElementById('confirmID');

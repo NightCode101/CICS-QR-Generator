@@ -86,7 +86,7 @@
                 password to access the NFC Tag Manager.</p>
             <input type="password" id="nfcPasswordInput" placeholder="Enter Password"
                 style="text-transform: none; text-align: center;" />
-            <button id="nfcUnlockBtn" style="width: 100%; margin-top: 10px;">Unlock</button>
+            <button id="nfcUnlockBtn" class="btn-block" style="margin-top: 10px;">Unlock</button>
             <p id="nfcSecurityError" class="security-error"></p>
         </div>
     </div>
@@ -171,7 +171,7 @@
                     <li>Simply tap the ID card on the USB reader at any time; no clicking is required.</li>
                 </ul>
             </div>
-            <button id="gotItBtn" class="alert-ok-button" style="width: 100%; margin-top: 32px;">Got It!</button>
+            <button id="gotItBtn" class="alert-ok-button btn-block" style="margin-top: 32px;">Got It!</button>
         </div>
     </div>
 
@@ -194,14 +194,13 @@
     <!-- Cookie Consent Banner (Google Ads Compliant)
          Purpose: Obtain user consent for Google Analytics & optional ad personalization
          User Choice: Accept or Dismiss (both are valid) -->
-    <div id="cookieConsent"
-      style="display: none; position: fixed; bottom: 20px; left: 20px; right: 20px; background: #fff3e0; color: #333; padding: 15px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); max-width: 800px; margin: 0 auto; z-index: 999;">
-      <p style="margin: 0; font-size: 0.9rem;">We use browser storage (localStorage) for theme preferences and QR history. Google Analytics helps us understand usage. <a href="privacy.html" style="color:#e59e02; font-weight: 600;">Learn more →</a></p>
-      <div style="margin-top: 10px; display: flex; gap: 8px; justify-content: flex-end;">
-        <button onclick="dismissCookies()" style="background: #ccc; color: #333; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: normal;">Dismiss</button>
-        <button onclick="acceptCookies()" style="background: #e59e02; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: 600;">Accept</button>
-      </div>
-    </div>
+        <div id="cookieConsent">
+            <p>We use browser storage (localStorage) for theme preferences and QR history. Google Analytics helps us understand usage. <a href="privacy.html">Learn more →</a></p>
+            <div class="cookie-actions">
+                <button onclick="dismissCookies()" class="btn-secondary btn-compact">Dismiss</button>
+                <button onclick="acceptCookies()" class="btn-compact">Accept</button>
+            </div>
+        </div>
 
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
