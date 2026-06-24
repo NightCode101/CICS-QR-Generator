@@ -36,6 +36,20 @@ function showToast(message) {
 }
 
 /**
+ * Validates student ID format: must be exactly "##-#####" (2 digits, dash, 5 digits)
+ * Example: "24-00001"
+ *
+ * @param {string} id The student ID to validate
+ * @returns {boolean} True if valid format, false otherwise
+ * @example validateStudentID("24-00001"); // Returns true
+ * @example validateStudentID("24001"); // Returns false
+ */
+function validateStudentID(id) {
+  const regex = /^\d{2}-\d{5}$/;
+  return regex.test(id);
+}
+
+/**
  * Calculates an appropriate font size for canvas text based on input length.
  * Prevents text overflow on the QR code template.
  *
@@ -392,6 +406,11 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
+      if (!validateStudentID(id)) {
+        showAlert("Student ID must be in format: ##-##### (e.g., 24-00001)");
+        return;
+      }
+
       const qrData = `${id}|${name}`;
       openConfirmModal(qrData, false); // Open confirmation for single generation
     };
@@ -539,6 +558,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (parts.length !== 2 || !parts[0].trim() || !parts[1].trim()) {
           console.warn(`Skipping line: "${line}". Incorrect format.`);
+          errorCount++;
+          i++;
+          setTimeout(generateNext, 10);
+          return;
+        }
+
+        const id = parts[0].trim();
+        if (!validateStudentID(id)) {
+          console.warn(`Skipping line: "${line}". Invalid ID format. Expected: ##-##### (e.g., 24-00001).`);
           errorCount++;
           i++;
           setTimeout(generateNext, 10);
@@ -789,16 +817,30 @@ document.addEventListener('DOMContentLoaded', () => {
       const lines = input.split('\n').map(l => l.trim()).filter(l => l);
 
       let validCount = 0;
+      let invalidLines = [];
 
-      lines.forEach(line => {
+      lines.forEach((line, index) => {
         const parts = line.split('|');
         if (parts.length === 2 && parts[0].trim() && parts[1].trim()) {
-          validCount++;
+          const id = parts[0].trim();
+          if (validateStudentID(id)) {
+            validCount++;
+          } else {
+            invalidLines.push(`Line ${index + 1}: Invalid ID format "${id}"`);
+          }
         }
       });
 
       if (validCount === 0) {
-        return showAlert("No valid ID|Name data found in the input. Please check the format.");
+        let errorMsg = "No valid ID|Name data found. Student ID format must be: ##-##### (e.g., 24-00001)";
+        if (invalidLines.length > 0 && invalidLines.length <= 5) {
+          errorMsg += "\n\n" + invalidLines.join("\n");
+        }
+        return showAlert(errorMsg);
+      }
+
+      if (invalidLines.length > 0) {
+        console.warn(`Skipping ${invalidLines.length} lines with invalid ID format:`, invalidLines);
       }
 
       // FIXED: Call the generation function directly, bypassing the confirmation modal
@@ -911,6 +953,8 @@ if (document.body.classList.contains('page-nfc')) {
     const name = document.getElementById('nfcNameInput').value.trim();
 
     if (!id || !name) return showAlert("Please enter both ID and Name to write to the tag.");
+
+    if (!validateStudentID(id)) return showAlert("Student ID must be in format: ##-##### (e.g., 24-00001)");
 
     // The actual raw data saved to the chip
     const dataString = `${id}|${name}`;
