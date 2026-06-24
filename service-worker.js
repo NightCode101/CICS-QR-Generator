@@ -1,4 +1,4 @@
-const CACHE_NAME = 'qr-cache-v6'; // Incremented cache version for AdSense integration
+const CACHE_NAME = 'qr-cache-v7'; // Incremented cache version for AdSense integration
 const urlsToCache = [
   './',
   './index.html',

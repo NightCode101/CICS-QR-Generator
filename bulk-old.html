@@ -96,13 +96,69 @@
     <button id="themeToggle" class="theme-toggle">🌙</button>
   </nav>
 
-    <div class="main-column">
-
-      <div class="form-card">
-        <h1>UNDER MAINTENANCE</h1>
+  <div class="form-card">
+    <div class="canvas-wrapper">
+      <h1>CICS CSU Piat</h1>
+      <h3>Bulk QR Code Generator</h3>
+      <div class="qr-display">
+        <img id="previewImage" src="./assets/preview.png" alt="Template Preview" />
+        <canvas id="qrCanvas" width="1024" height="1024" style="display: none;"></canvas>
+        <div id="previewOverlay" class="preview-overlay">
+          <div class="spinner"></div>
+          <span>Generating...</span>
+        </div>
       </div>
-      
     </div>
+
+    <div class="form-wrapper">
+      <label for="bulkInput">
+        Format: ID|Name (one per line)
+      </label>
+      <textarea id="bulkInput" placeholder="Paste data here...
+ID123|LAST, FIRST M.I.
+ID456|LAST, FIRST M.I." oninput="this.value = this.value.toUpperCase()"></textarea>
+      <div class="button-group">
+        <button onclick="generateBulkQRs()">Generate All</button>
+        <button onclick="downloadSelectedZipped()" id="zipBtn" disabled>Download Selected as ZIP</button>
+        <button onclick="resetBulkQR()" id="resetBulkBtn" disabled>Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="history-container">
+    <div class="bulk-controls">
+      <label class="select-wrapper">
+        <input type="checkbox" id="selectAll" onchange="toggleSelectAll(this)">
+        <span>Select All</span>
+      </label>
+      <button id="clearSelectionBtn" onclick="clearSelection()">Clear All</button>
+    </div>
+    <div id="loadingIndicator" class="loading-indicator" style="display:none">Generating...</div>
+    <div id="bulkPreview" class="bulk-preview"></div>
+  </div>
+
+  <!--
+    Google AdSense Placeholder
+    To implement Google Ads, replace this comment with:
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-..." crossorigin="anonymous"></script>
+    <ins class="adsbygoogle" style="display:block; width: 100%; max-width: 800px;" data-ad-client="ca-pub-..." data-ad-slot="..." data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  -->
+  <!-- Google AdSense Responsive Ad Unit -->
+  <ins class="adsbygoogle" style="display:block; width: 100%; max-width: 100%; margin: 20px 0;"
+    data-ad-client="ca-pub-6600375635602117" data-ad-slot="7823456913" data-ad-format="auto"
+    data-full-width-responsive="true"></ins>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+
+  <div id="qrPreviewModal" class="modal-overlay">
+    <div class="modal-content">
+      <span class="modal-close">&times;</span>
+      <img id="modalQrImage" src="" alt="QR Code Preview" />
+      <p id="modalQrName"></p>
+    </div>
+  </div>
 
   <footer class="footer">
     <p>College of Information and Computing Sciences</p>
